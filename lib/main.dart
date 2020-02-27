@@ -1,4 +1,3 @@
-import 'dart:ui' as prefix0;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +9,8 @@ class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
+
       theme: ThemeData(
-        backgroundColor: Colors.white,
 
           primarySwatch: Colors.green,
           accentColor: Colors.greenAccent,
@@ -45,7 +44,6 @@ class _StateLogin extends State<Login>{
                      // crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                           Container(
-
                             child: Column(children: <Widget>[
                               Container(
                                // decoration:BoxDecoration(
@@ -67,7 +65,13 @@ class _StateLogin extends State<Login>{
                                 ),
                                     margin: EdgeInsets.only(left: 2.0,right: 2.0,top: 0.5,bottom: 0.5),
                                     child: Text("Login now to start travelling wherever you want  " ,
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 14,
 
+                                          color: Color.fromRGBO(43, 43, 43, 100)
+                                      ),
 
                                       textAlign: TextAlign.center,
                                       ),
@@ -79,63 +83,97 @@ class _StateLogin extends State<Login>{
                           height: 50,
                         ),
                         Container(
-                          child: Container(
                            // margin: EdgeInsets.symmetric(vertical: 5.0,horizontal: 20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: <Widget>[
-                                 TextFormField(
-                                  decoration: InputDecoration(
-                                    labelText: 'email address' ,
-                                      border:
-                                       OutlineInputBorder(
-                                       borderRadius: BorderRadius.circular(50.0)
-                                      )
+                                 Container(
+                                   width: 348.0,
+                                   height: 52.0,
+                                   decoration: BoxDecoration(
+                                       borderRadius: BorderRadius.circular(26.0),
+                                       //  border: Border.all(width: 5),
+                                       color: Color.fromRGBO(215, 215, 215, 100)
+                                   ),
+                                   child: TextFormField(
+                                     style: TextStyle(
+                                       fontFamily: 'Poppins',
+                                       fontSize: 15.0,
+                                       color: Color.fromRGBO(170, 173, 173, 100)
+                                     ),
+                                    decoration: InputDecoration(
+                                      labelText: 'email address' ,
+                                        border:
+                                         OutlineInputBorder(
+                                         borderRadius: BorderRadius.circular(26.0)
+                                        )
                                 ),
-                                  controller: emailController,
+                                    controller: emailController,
                                 //  onSubmitted: (_) => _submitData() ,
 
 
                               ),
+                                 ),
                               SizedBox(
                                 height: 20.0,
                               ),
-                              TextFormField(
+                              Container(
+                                width: 348.0,
+                                height: 52.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(26.0),
+                                 //  border: Border.all(width: 5),
+                                    color: Color.fromRGBO(215, 215, 215, 100)
+                                ),
+                               // color: Color.fromRGBO(215, 215, 215, 100),
+                                child: TextFormField(
+                                  style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15.0,
+                                      color: Color.fromRGBO(170, 173, 173, 100)
+                                  ),
+                                  decoration: InputDecoration(
+                                    labelText: 'password',
+                                    border:
+                                    OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(26.0)
+                                    )
+                                ),
+                                  controller: passwordController,
+                                //  onSubmitted: ,
 
-                                decoration: InputDecoration(
-                                  labelText: 'password',
-                                  border:
-                                  OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(50.0)
-                                  )
+                                ),
                               ),
-                                controller: passwordController,
-                              //  onSubmitted: ,
-
+                              SizedBox(
+                                height: 2.0,
                               ),
                               InkWell(
                                 child: Text(
                                   'Forgot Password?' ,
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    color: Colors.black54
+                                    fontFamily: 'Poppins',
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 13,
+
+                                    color: Color.fromRGBO(79, 79, 79, 100)
                                   ),
                                 ),
                                 onTap: (){},
                               ),
                             ],
                             ),
-                          ),
                         ),
                         SizedBox(
                           height: 20.0,
                         ),
                         Container(
-                          height: 40.0,
+                          height: 48.0,
+                          width: 348.0,
                           child: Material(
                             borderRadius: BorderRadius.circular(20.0),
-                            shadowColor: Theme.of(context).accentColor,
-                            color: Theme.of(context).primaryColor,
+                            //shadowColor: Theme.of(context).accentColor,
+                            color: Color.fromRGBO(63, 204, 84, 100),
+                            //Theme.of(context).primaryColor,
                             elevation: 7.0,
                             child: GestureDetector(
                               onTap: (){},
@@ -151,24 +189,41 @@ class _StateLogin extends State<Login>{
                           height: 90.0,
                         )
                         ,
-                        Row(
-                          children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.only(left: 60.0),
-                            child: Text("Don't have an account?"),
-                          ),
-                          SizedBox(
-                            width: 1.0,
-                          ),
-                          InkWell(
-                            onTap: (){},
-                            child: Text("Sign Up",
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColor ,
-                            ),),
-                          )
+                        Center(
+                          child: Container(
+                            width: 271.0,
+                            height: 33.0,
+                            padding: EdgeInsets.only(left: 20.0),
+                            child: Row(
+                              children: <Widget>[
+                              Container(
+                                child: Text("Don't have an account?",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                          fontSize: 15.0,
+                                          fontFamily: 'Poppins',
+                                          color: Color.fromRGBO(79, 79, 79, 100)
 
-                        ],
+                                ),),
+                              ),
+                              SizedBox(
+                                width: 1.0,
+                              ),
+                              InkWell(
+                                onTap: (){},
+                                child: Text("Sign Up",
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  fontFamily: 'Poppins',
+
+                                  color: Color.fromRGBO(63, 204, 84, 100) ,
+
+                                ),),
+                              )
+
+                            ],
+                            ),
+                          ),
                         )
                     ],),
                 ),
