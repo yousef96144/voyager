@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'screens/login.dart';
-import 'screens/maketrip.dart';
-import './screens/signup.dart';
-=======
-import 'package:voyager/screens/login.dart';
-import 'package:voyager/screens/signup.dart';
 
->>>>>>> 3b076039026168fe68ecd292a2551dcd7644bb0e
+import './screens/login.dart';
+import './screens/maketrip.dart';
+import './screens/signup.dart';
+
 
 void main() => runApp( MyApp());
 
@@ -26,16 +22,12 @@ class MyApp extends StatelessWidget{
           //appBarTheme: AppBarTheme(textTheme: ThemeData.light().textTheme.copyWith(title: TextStyle(fontFamily: 'Raleway',fontSize: 20 ,fontWeight: FontWeight.bold)))
       ),
       title: "VOYAGER",
-<<<<<<< HEAD
       home: StartMyApp(),
-=======
-      home: Signup(),
->>>>>>> 3b076039026168fe68ecd292a2551dcd7644bb0e
+
     );
   }
 
 }
-<<<<<<< HEAD
 class StartMyApp extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -48,12 +40,11 @@ class _StateMyApp extends State<StartMyApp>{
   Widget build(BuildContext context) {
     return Scaffold(
             body: //Login() ,
-                MakeTrip(),
+               MakeTrip(),
      // Signup()
+     // Login()
             )
     ;
   }
 
 }
-=======
->>>>>>> 3b076039026168fe68ecd292a2551dcd7644bb0e
