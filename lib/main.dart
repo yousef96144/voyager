@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import './login.dart';
-import './maketrip.dart';
+import 'screens/login.dart';
+import 'screens/maketrip.dart';
+import './screens/signup.dart';
 
 void main() => runApp( MyApp());
 
@@ -37,6 +38,7 @@ class _StateMyApp extends State<StartMyApp>{
     return Scaffold(
             body: //Login() ,
                 MakeTrip(),
+     // Signup()
             )
     ;
   }
