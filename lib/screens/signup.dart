@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
+=======
+import 'package:flutter/cupertino.dart';
+>>>>>>> 3b076039026168fe68ecd292a2551dcd7644bb0e
 
 
 class Signup extends StatefulWidget{
@@ -207,6 +211,7 @@ class _StateLogin extends State<Signup>{
               ),
               SizedBox(height: 20.0,),
               Container(
+<<<<<<< HEAD
                   height: 48.0,
                   width:  MediaQuery.of(context).size.width*0.86,
                   decoration: BoxDecoration(
@@ -236,6 +241,27 @@ class _StateLogin extends State<Signup>{
                     ),
                   )),
 
+=======
+                          height: 48.0,
+                          width: 348.0,
+                          child: Material(
+                            borderRadius: BorderRadius.circular(20.0),
+                            //shadowColor: Theme.of(context).accentColor,
+                            color: Color(0xFF3FCC59),
+                            //Theme.of(context).primaryColor,
+                            elevation: 7.0,
+                            child: GestureDetector(
+                              onTap: (){},
+                              child: Center(
+                                child: Text(
+                                    'Sign Up',
+                                style: Theme.of(context).textTheme.button,),
+                              ),
+                            ),
+                          ),
+                        ),
+
+>>>>>>> 3b076039026168fe68ecd292a2551dcd7644bb0e
             ],
           ),
         ),
