@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:voyager/screens/signup.dart';
 
 
 
@@ -14,14 +16,16 @@ class _StateLogin extends State<Login>{
   final emailController=TextEditingController();
   final passwordController=TextEditingController();
   Widget build(BuildContext context) {
-    return Form(
-      child: Padding(
-        padding:  EdgeInsets.only(top:80.0,left: 30.0,right: 30.0),
-        child: ListView(
+    return ListView(
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            SizedBox(
+              height: 100,
+            ),
             Container(
-              child: Column(children: <Widget>[
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
                 Container(
                   // decoration:BoxDecoration(
                   // border: Border.all(width: 5)
@@ -35,7 +39,7 @@ class _StateLogin extends State<Login>{
                   height: 15.0,
                 ),
                 Container(
-                  width: 300.0,
+                  width: MediaQuery.of(context).size.width*0.693,
                   height: 43.0,
                   decoration:BoxDecoration(
                     //  border: Border.all(width: 5)
@@ -46,8 +50,9 @@ class _StateLogin extends State<Login>{
                         fontFamily: 'Poppins',
                         fontStyle: FontStyle.normal,
                         fontSize: 14,
+                        fontWeight: FontWeight.w400,
 
-                        color: Color.fromRGBO(43, 43, 43, 100)
+                        color: Color(0xFF2B2B2B)
                     ),
 
                     textAlign: TextAlign.center,
@@ -59,127 +64,147 @@ class _StateLogin extends State<Login>{
             SizedBox(
               height: 50,
             ),
-            Container(
-              // margin: EdgeInsets.symmetric(vertical: 5.0,horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Container(
-                    width: 348.0,
-                    height: 52.0,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(26.0),
-                        //  border: Border.all(width: 5),
-                        color: Color.fromRGBO(215, 215, 215, 100)
-                    ),
-                    child: TextFormField(
-                      style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 15.0,
-                          color: Color.fromRGBO(170, 173, 173, 100)
+            Center(
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width*.84,
+                      height: 52.0,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(26.0),
+                          //  border: Border.all(width: 5),
+                          color: Color.fromRGBO(215, 215, 215, 100)
                       ),
-                      decoration: InputDecoration(
-                          labelText: 'email address' ,
-                          border:
-                          OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(26.0)
-                          )
-                      ),
-                      controller: emailController,
-                      //  onSubmitted: (_) => _submitData() ,
+                      child: TextFormField(
+                        style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 15.0,
+                            color: Color.fromRGBO(170, 173, 173, 100)
+                        ),
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(left: 20.0,top: 17.5,bottom: 17.5),
+                            labelText: 'email address' ,
+                            labelStyle: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: Color(0xFF839195),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500
+                            ) ,
+                            border:
+                            OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(26.0)
+                            )
+                        ),
+                        controller: emailController,
+                        //  onSubmitted: (_) => _submitData() ,
 
 
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Container(
-                    width: 348.0,
-                    height: 52.0,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(26.0),
-                        //  border: Border.all(width: 5),
-                        color: Color.fromRGBO(215, 215, 215, 100)
-                    ),
-                    // color: Color.fromRGBO(215, 215, 215, 100),
-                    child: TextFormField(
-                      style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 15.0,
-                          color: Color.fromRGBO(170, 173, 173, 100)
                       ),
-                      decoration: InputDecoration(
-                          labelText: 'password',
-                          border:
-                          OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(26.0)
-                          )
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width*.84,
+                      height: 52.0,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(26.0),
+                          //  border: Border.all(width: 5),
+                          color: Color.fromRGBO(215, 215, 215, 100)
                       ),
-                      controller: passwordController,
-                      //  onSubmitted: ,
+                      // color: Color.fromRGBO(215, 215, 215, 100),
+                      child: TextFormField(
+                        style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 15.0,
+                            color: Color.fromRGBO(170, 173, 173, 100)
+                        ),
+                        decoration: InputDecoration(
+                            labelText: 'password',
+                            labelStyle: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: Color(0xFF839195),
+                                fontSize: 15,
+                              fontWeight: FontWeight.w500
+                            ) ,
+                            contentPadding: EdgeInsets.only(left: 20.0,top: 17.5,bottom: 17.5),
+                            border:
+                            OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(26.0)
+                            )
+                        ),
+                        controller: passwordController,
+                        //  onSubmitted: ,
 
-                    ),
-                  ),
-                  SizedBox(
-                    height: 2.0,
-                  ),
-                  InkWell(
-                    child: Text(
-                      'Forgot Password?' ,
-                      style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontStyle: FontStyle.normal,
-                          fontSize: 13,
-
-                          color: Color.fromRGBO(79, 79, 79, 100)
                       ),
                     ),
-                    onTap: (){},
-                  ),
-                ],
+                    SizedBox(
+                      height: 2.0,
+                    ),
+                    InkWell(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent, // makes highlight invisible too
+                      child: Text(
+                        'Forgot Password?' ,
+                        style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontStyle: FontStyle.normal,
+                            fontSize: 13,
+
+                            color: Color.fromRGBO(79, 79, 79, 100)
+                        ),
+                      ),
+                      onTap: (){},
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(
               height: 20.0,
             ),
-            Container(
-                height: 48.0,
-                width:  MediaQuery.of(context).size.width*0.86,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.0),
-                ),
-                child: Material(
-                  borderRadius: BorderRadius.circular(50.0),
-                  //shadowColor: Theme.of(context).accentColor,
-                  color: Color(0xFF3FCC59),
-                  //Theme.of(context).primaryColor,
-                  //  elevation: 7.0,
-                  child: MaterialButton(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent, // makes highlight invisible too
-                    colorBrightness: Brightness.light,
-                    onPressed: (){},
-                    child: Text("login",
-                      style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 18.0,
-                          color: Color(0xFFFFFFFF),
-                          fontWeight: FontWeight.w600
-                      ),
-
-
-                      //   style: Theme.of(context).textTheme.button,
-                    ),
+            Center(
+              child: Container(
+                  height: 48.0,
+  width:  MediaQuery.of(context).size.width*0.86,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50.0),
                   ),
-                )),
+                  child: Material(
+                    borderRadius: BorderRadius.circular(50.0),
+                    //shadowColor: Theme.of(context).accentColor,
+                    color: Color(0xFF3FCC59),
+                    //Theme.of(context).primaryColor,
+                    //  elevation: 7.0,
+                    child: MaterialButton(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent, // makes highlight invisible too
+                      colorBrightness: Brightness.light,
+                      onPressed: (){},
+                      child: Text("login",
+                        style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 18.0,
+                            color: Color(0xFFFFFFFF),
+                            fontWeight: FontWeight.w600
+                        ),
+
+
+                        //   style: Theme.of(context).textTheme.button,
+                      ),
+                    ),
+                  )),
+            ),
             SizedBox(
               height: 90.0,
             )
             ,
             Center(
               child: Container(
-                width: 271.0,
+                width: 290.0,
                 height: 33.0,
                 padding: EdgeInsets.only(left: 20.0),
                 child: Row(
@@ -190,30 +215,39 @@ class _StateLogin extends State<Login>{
                         style: TextStyle(
                             fontSize: 15.0,
                             fontFamily: 'Poppins',
-                            color: Color.fromRGBO(79, 79, 79, 100)
+                            color: Color(0xFF4F4F4F),
+                            fontWeight: FontWeight.w400
 
                         ),),
                     ),
-                    SizedBox(
-                      width: 1.0,
-                    ),
+
                     InkWell(
-                      onTap: (){},
-                      child: Text("Sign Up",
-                        style: TextStyle(
-                          fontSize: 15.0,
-                          fontFamily: 'Poppins',
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent, // makes highlight invisible too
+                          onTap: (){
+                            TextStyle(decoration: TextDecoration.underline);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context)=>Signup(),
+                                ),
+                            );
+                          },
+                        child: Text("Sign Up",
+                          style: TextStyle(
+                            fontSize: 15.0,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFF3FCC59) ,
 
-                          color: Color.fromRGBO(63, 204, 84, 100) ,
 
-                        ),),
+                          ),
+                      ),
                     )
 
                   ],
                 ),
               ),
             )
-          ],),
-      ),
-    );
+          ],);
 }}
