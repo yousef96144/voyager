@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import './screens/login.dart';
 import './screens/maketrip.dart';
 import './screens/signup.dart';
-
+import './screens/profile.dart';
 
 void main() => runApp( MyApp());
 
@@ -39,8 +39,9 @@ class _StateMyApp extends State<StartMyApp>{
 
   Widget build(BuildContext context) {
     return Scaffold(
-            body: Login() ,
-            //  MakeTrip(),
+            body: Profile()
+     //Login() ,
+       //MakeTrip(),
       //Signup()
      // Login()
             )

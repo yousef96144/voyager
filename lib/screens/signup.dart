@@ -51,19 +51,19 @@ class _StateLogin extends State<Signup>{
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(26.0),
                             //  border: Border.all(width: 5),
-                            color: Color.fromRGBO(215, 215, 215, 100)
+                            color: Color(0xFFF4F8FF)
                         ),
                       child: TextFormField(
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 15.0,
-                          color: Color.fromRGBO(170, 173, 173, 100)
+                          color: Color(0xFFAAADAD)
                         ),
                         decoration: InputDecoration(
                           labelText: 'full name',
                             labelStyle: TextStyle(
                                 fontFamily: 'Poppins',
-                                color: Color(0xFF839195),
+                                color: Color(0xFFAAADAD),
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500
                             ) ,
@@ -71,7 +71,11 @@ class _StateLogin extends State<Signup>{
                             border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25.0),
 
-                          )
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xFFD7D7D7)),
+                              borderRadius: BorderRadius.all(Radius.circular(26.0))
+                          ),
                         ),
                         controller: fullnamecontroller,
                       ),
@@ -83,19 +87,19 @@ class _StateLogin extends State<Signup>{
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(26.0),
                           //  border: Border.all(width: 5),
-                          color: Color.fromRGBO(215, 215, 215, 100)
+                          color: Color(0xFFF4F8FF)
                       ),
                       child: TextFormField(
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 15.0,
-                          color: Color.fromRGBO(170, 173, 173, 100)
+                          color: Color(0xFFAAADAD)
                         ),
                         decoration: InputDecoration(
                           labelText: 'email address',
                             labelStyle: TextStyle(
                                 fontFamily: 'Poppins',
-                                color: Color(0xFF839195),
+                                color: Color(0xFFAAADAD),
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500
                             ) ,
@@ -103,7 +107,11 @@ class _StateLogin extends State<Signup>{
                             border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25.0),
 
-                          )
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xFFD7D7D7)),
+                              borderRadius: BorderRadius.all(Radius.circular(26.0))
+                          ),
                         ),
                         controller: emailController
                       ),
@@ -115,19 +123,19 @@ class _StateLogin extends State<Signup>{
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(26.0),
                           //  border: Border.all(width: 5),
-                          color: Color.fromRGBO(215, 215, 215, 100)
+                          color: Color(0xFFF4F8FF)
                       ),
                       child: TextFormField(
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 15.0,
-                          color: Color.fromRGBO(170, 173, 173, 100)
+                          color: Color(0xFFAAADAD)
                         ),
                         decoration: InputDecoration(
                           labelText: 'password',
                             labelStyle: TextStyle(
                                 fontFamily: 'Poppins',
-                                color: Color(0xFF839195),
+                                color: Color(0xFFAAADAD),
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500
                             ) ,
@@ -135,7 +143,11 @@ class _StateLogin extends State<Signup>{
                             border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25.0),
 
-                          )
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xFFD7D7D7)),
+                              borderRadius: BorderRadius.all(Radius.circular(26.0))
+                          ),
                         ),
                         controller: passwordController,
                       ),
@@ -147,19 +159,19 @@ class _StateLogin extends State<Signup>{
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(26.0),
                           //  border: Border.all(width: 5),
-                          color: Color.fromRGBO(215, 215, 215, 100)
+                          color: Color(0xFFF4F8FF)
                       ),
                       child: TextFormField(
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 15.0,
-                          color: Color.fromRGBO(170, 173, 173, 100)
+                          color: Color(0xFFAAADAD)
                         ),
                         decoration: InputDecoration(
                           labelText: 'confirm password',
                             labelStyle: TextStyle(
                                 fontFamily: 'Poppins',
-                                color: Color(0xFF839195),
+                                color: Color(0xFFAAADAD),
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500
                             ) ,
@@ -167,7 +179,11 @@ class _StateLogin extends State<Signup>{
                             border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25.0),
 
-                          )
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xFFD7D7D7)),
+                              borderRadius: BorderRadius.all(Radius.circular(26.0))
+                          ),
                         ),
                         controller: confirmpasswordcontroller,
                       ),
@@ -179,19 +195,19 @@ class _StateLogin extends State<Signup>{
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(26.0),
                           //  border: Border.all(width: 5),
-                          color: Color.fromRGBO(215, 215, 215, 100)
+                          color: Color(0xFFF4F8FF)
                       ),
                       child: TextFormField(
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 15.0,
-                          color: Color.fromRGBO(170, 173, 173, 100)
+                          color: Color(0xFFAAADAD)
                         ),
                         decoration: InputDecoration(
                           labelText: 'phone number(optional)',
                             labelStyle: TextStyle(
                                 fontFamily: 'Poppins',
-                                color: Color(0xFF839195),
+                                color: Color(0xFFAAADAD),
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500
                             ) ,
@@ -199,7 +215,11 @@ class _StateLogin extends State<Signup>{
                             border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25.0),
 
-                          )
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xFFD7D7D7)),
+                              borderRadius: BorderRadius.all(Radius.circular(26.0))
+                          ),
                         ),
                         controller: phonenumbercontroller,
                       ),
