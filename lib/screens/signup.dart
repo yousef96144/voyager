@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter/cupertino.dart';
+enum SingingSex { male, female }
+enum SingingAge { yes, no }
 
 
 class Signup extends StatefulWidget{
@@ -16,13 +18,15 @@ class _StateLogin extends State<Signup>{
   final confirmpasswordcontroller=TextEditingController();
   final phonenumbercontroller=TextEditingController();
 
+  SingingSex _characterSex = SingingSex.male;
+  SingingAge _characterAge = SingingAge.yes;
   Widget build(BuildContext context) {
     return Scaffold(
     //  backgroundColor: Color(0xFFE5E5E5),
       body: ListView(
             children: <Widget>[
               SizedBox(
-                height: 50.0,
+                height: MediaQuery.of(context).size.height*0.075,
               ),
                   Container(
                     padding: EdgeInsets.only(left: 30.0),
@@ -39,7 +43,7 @@ class _StateLogin extends State<Signup>{
                     textAlign: TextAlign.left,
                     ),
               ),
-              SizedBox(height: 25.0,),
+              SizedBox(height: MediaQuery.of(context).size.height*0.035,),
               Center(
                 child: Container(
                   width: MediaQuery.of(context).size.width*0.87,
@@ -47,7 +51,7 @@ class _StateLogin extends State<Signup>{
                     children: <Widget>[
                       Container(
                       width: MediaQuery.of(context).size.width*0.86,
-                      height: 52.0,
+                        height: MediaQuery.of(context).size.height*0.075,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(26.0),
                             //  border: Border.all(width: 5),
@@ -83,7 +87,7 @@ class _StateLogin extends State<Signup>{
                     SizedBox(height: 18.0,),
                     Container(
                       width: MediaQuery.of(context).size.width*0.87,
-                      height: 52.0,
+                      height: MediaQuery.of(context).size.height*0.075,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(26.0),
                           //  border: Border.all(width: 5),
@@ -119,7 +123,7 @@ class _StateLogin extends State<Signup>{
                     SizedBox(height: 22.0,),
                     Container(
                       width: MediaQuery.of(context).size.width*0.87,
-                      height: 52.0,
+                      height: MediaQuery.of(context).size.height*0.075,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(26.0),
                           //  border: Border.all(width: 5),
@@ -155,7 +159,7 @@ class _StateLogin extends State<Signup>{
                     SizedBox(height: 22.0,),
                     Container(
                       width: MediaQuery.of(context).size.width*0.87,
-                      height: 52.0,
+                      height: MediaQuery.of(context).size.height*0.075,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(26.0),
                           //  border: Border.all(width: 5),
@@ -191,7 +195,7 @@ class _StateLogin extends State<Signup>{
                     SizedBox(height: 22.0,),
                     Container(
                       width: MediaQuery.of(context).size.width*0.87,
-                      height: 52.0,
+                      height: MediaQuery.of(context).size.height*0.075,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(26.0),
                           //  border: Border.all(width: 5),
@@ -228,7 +232,8 @@ class _StateLogin extends State<Signup>{
                   ),
                 ),
               ),
-              SizedBox(height:  15.0,),
+              SizedBox(height:  MediaQuery.of(context).size.height*0.02),
+              //////////////////////////////////////////////////////////////////////Radio buttons
               Container(
                 padding: EdgeInsets.only(left: 40.0),
                 decoration:BoxDecoration(
@@ -250,7 +255,7 @@ class _StateLogin extends State<Signup>{
                       ),
                     ),
                     SizedBox(
-                      height: 20.0,
+                      height: MediaQuery.of(context).size.height*.03,
                     ),
                     Text(
                       'Over age 18?',
@@ -267,15 +272,20 @@ class _StateLogin extends State<Signup>{
                   ),
                   Column(children: <Widget>[
                     Radio(
-                      value: 0,
-                     // groupValue: maleRadioGroup,
-                     // onChanged: (){},
-                    ),
+                      value: SingingSex.male,
+                      groupValue: _characterSex,
+                      onChanged:  (SingingSex value) {
+                        setState(() { _characterSex = value; });
+                      },
+                  ),
+
 
                     Radio(
-                      value: 1,
-                   //   groupValue: femaleRadioGroup,
-                     // onChanged: RadioEvenHandler,
+                      value: SingingAge.yes,
+                      groupValue: _characterAge,
+                      onChanged:(SingingAge value) {
+                        setState(() { _characterAge = value; });
+                      },
                     )
                   ],),
                   Column(children: <Widget>[
@@ -289,7 +299,7 @@ class _StateLogin extends State<Signup>{
                       ),
                     ),
                     SizedBox(
-                      height: 23.0,
+                      height: MediaQuery.of(context).size.height*.035,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 2.0),
@@ -306,15 +316,19 @@ class _StateLogin extends State<Signup>{
                   ],),
                   Column(children: <Widget>[
                     Radio(
-                      value: 0,
-                      // groupValue: maleRadioGroup,
-                      // onChanged: (){},
+                      value: SingingSex.female,
+                      groupValue: _characterSex,
+                      onChanged: (SingingSex value) {
+                        setState(() { _characterSex = value; });
+                      },
                     ),
 
                     Radio(
-                      value: 1,
-                      //   groupValue: femaleRadioGroup,
-                      // onChanged: RadioEvenHandler,
+                      value: SingingAge.no,
+                         groupValue: _characterAge,
+                       onChanged: (SingingAge value) {
+                         setState(() { _characterAge = value; });
+                       },
                     )
                   ],),
                   Column(children: <Widget>[
@@ -329,7 +343,7 @@ class _StateLogin extends State<Signup>{
                       ),
                     ),
                     SizedBox(
-                      height: 23.0,
+                      height: MediaQuery.of(context).size.height*0.035,
                     ),
 
                     Padding(
@@ -348,10 +362,10 @@ class _StateLogin extends State<Signup>{
                   ),
 
                 ],),),
-              SizedBox(height: 10.0,),
+              SizedBox(height: MediaQuery.of(context).size.height*0.01,),
               Center(
                 child: Container(
-                    height: 48.0,
+                    height: MediaQuery.of(context).size.height*0.07,
                     width:  MediaQuery.of(context).size.width*0.86,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50.0),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:voyager/screens/signup.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:rating_bar/rating_bar.dart';
+enum DriverFeedback { Excellent, Good , Average, Bad ,VeryBad  }
 
 class Profile extends StatefulWidget {
   @override
@@ -12,6 +13,9 @@ class Profile extends StatefulWidget {
 }
 
 class _StateProfile extends State<Profile> {
+
+  DriverFeedback _Driverval = DriverFeedback.Excellent;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,9 +44,34 @@ class _StateProfile extends State<Profile> {
                     height: 250.0,
                     width: 250.0,
                     decoration: BoxDecoration(
+
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             image: AssetImage('image/Ellipse 4.png'))),
+                    child: Container(
+                  height: 250.0,
+                  width: 250.0,
+                  decoration: BoxDecoration(
+                  shape: BoxShape.circle,),
+                      child: Stack(children: <Widget>[
+                        Positioned(
+                         top: 50,
+                          right: 40,
+                          child: Container(
+                            width: 22.0,
+                            height: 22.0,
+
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              border: Border.all(color: Colors.white,width: 2),
+                              borderRadius: BorderRadius.circular(20.0),
+
+                            ),
+                          ),
+                        )
+                      ],
+                      ),
+                    ),
                   ),
                 )
               ]),
@@ -228,9 +257,11 @@ class _StateProfile extends State<Profile> {
                     child: Row(
                       children: <Widget>[
                         Radio(
-                          value: 0,
-                          //   groupValue: femaleRadioGroup,
-                          // onChanged: RadioEvenHandler,
+                          value: DriverFeedback.Excellent,
+                          groupValue: _Driverval,
+                          onChanged: (DriverFeedback value) {
+                            setState(() { _Driverval = value; });
+                          },
                         ),
                         SizedBox(width: 20,),
                         Container(
@@ -248,9 +279,11 @@ class _StateProfile extends State<Profile> {
                       children: <Widget>[
                         Radio(
                           materialTapTargetSize: MaterialTapTargetSize.padded,
-                          value: 1,
-                          //   groupValue: femaleRadioGroup,
-                          // onChanged: RadioEvenHandler,
+                          value: DriverFeedback.Good,
+                          groupValue: _Driverval,
+                          onChanged: (DriverFeedback value) {
+                            setState(() { _Driverval = value; });
+                          },
                         ),
                         SizedBox(width: 20,),
                         Container(
@@ -267,9 +300,11 @@ class _StateProfile extends State<Profile> {
                     child: Row(
                       children: <Widget>[
                         Radio(
-                          value: 2,
-                          //   groupValue: femaleRadioGroup,
-                          // onChanged: RadioEvenHandler,
+                          value: DriverFeedback.Average,
+                          groupValue: _Driverval,
+                          onChanged: (DriverFeedback value) {
+                            setState(() { _Driverval = value; });
+                          },
                         ),
                         SizedBox(width: 20,),
                         Container(
@@ -286,9 +321,11 @@ class _StateProfile extends State<Profile> {
                     child: Row(
                       children: <Widget>[
                         Radio(
-                          value: 3,
-                          //   groupValue: femaleRadioGroup,
-                          // onChanged: RadioEvenHandler,
+                          value: DriverFeedback.Bad,
+                          groupValue: _Driverval,
+                          onChanged: (DriverFeedback value) {
+                            setState(() { _Driverval = value; });
+                          },
                         ),
                         SizedBox(width: 20,),
                         Container(
@@ -306,9 +343,11 @@ class _StateProfile extends State<Profile> {
                       children: <Widget>[
                         Radio(
 
-                          value: 4,
-                          //   groupValue: femaleRadioGroup,
-                          // onChanged: RadioEvenHandler,
+                          value: DriverFeedback.VeryBad,
+                          groupValue: _Driverval,
+                          onChanged: (DriverFeedback value) {
+                            setState(() { _Driverval = value; });
+                          },
                         ),
                         SizedBox(width: 20,),
                         Container(

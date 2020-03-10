@@ -20,7 +20,7 @@ class _StateLogin extends State<Login>{
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              height: 100,
+              height: MediaQuery.of(context).size.height*0.15,
             ),
             Container(
               child: Column(
@@ -62,7 +62,7 @@ class _StateLogin extends State<Login>{
               ),
             ),
             SizedBox(
-              height: 50,
+              height: MediaQuery.of(context).size.height* 0.08,
             ),
             Center(
               child: Container(
@@ -72,7 +72,7 @@ class _StateLogin extends State<Login>{
                   children: <Widget>[
                     Container(
                       width: MediaQuery.of(context).size.width*.84,
-                      height: 52.0,
+                      height: MediaQuery.of(context).size.height*0.075,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(26.0),
                            // border: Border.all(style: BorderStyle.none,color: Colors.white),
@@ -109,11 +109,11 @@ class _StateLogin extends State<Login>{
                       ),
                     ),
                     SizedBox(
-                      height: 20.0,
+                      height: MediaQuery.of(context).size.height*0.025,
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width*.84,
-                      height: 52.0,
+                      height: MediaQuery.of(context).size.height*0.075,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(26.0),
                           //  border: Border.all(width: 5),
@@ -174,11 +174,11 @@ class _StateLogin extends State<Login>{
               ),
             ),
             SizedBox(
-              height: 20.0,
+              height:MediaQuery.of(context).size.height*0.03,
             ),
             Center(
               child: Container(
-                  height: 48.0,
+                  height: MediaQuery.of(context).size.height*0.07,
   width:  MediaQuery.of(context).size.width*0.86,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50.0),
@@ -209,7 +209,7 @@ class _StateLogin extends State<Login>{
                   )),
             ),
             SizedBox(
-              height: 90.0,
+              height: MediaQuery.of(context).size.height*0.14,
             )
             ,
             Center(
