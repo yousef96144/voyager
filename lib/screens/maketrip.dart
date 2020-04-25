@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
 import 'package:intl/intl.dart';
+import 'tripscreen/background.dart';
 class MakeTrip extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -16,23 +17,23 @@ class _TripState extends State<MakeTrip>{
   final priceController=TextEditingController();
   final messageController=TextEditingController();
   final dayController=TextEditingController();
-   TimeOfDay _recentTime=TimeOfDay.now();
-        DateTime _recentDate;
+  TimeOfDay _recentTime=TimeOfDay.now();
+  DateTime _recentDate;
 
   List<String> _numOfPasses=["1","2","3","4"];
   var currentItemSelected='1';
 
 
   void _tripTimePicker(){
-   showTimePicker(
-        context: context,
-        initialTime: TimeOfDay.now(),
-     builder: (BuildContext context, Widget child) {
-       return Directionality(
-         textDirection: prefix0.TextDirection.ltr,
-         child: child,
-       );
-     },
+    showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      builder: (BuildContext context, Widget child) {
+        return Directionality(
+          textDirection: prefix0.TextDirection.ltr,
+          child: child,
+        );
+      },
     ).then((pickedTime){
       if(pickedTime==null)
       {
@@ -60,73 +61,13 @@ class _TripState extends State<MakeTrip>{
     });
   }
   Widget build(BuildContext context) {
+    print('here is wedgit of maketrip');
+
     return Scaffold(body: SingleChildScrollView(
       child: Column(children: <Widget>[
-        Container(
-          /* width: 414.0,
-            height: 312.0,*/
-          height: MediaQuery.of(context).size.height*0.3999,
-          width: MediaQuery.of(context).size.width*1.0,
-          child: Center(
-            child: Container(
-              decoration: BoxDecoration(
-                // border: Border.all(width: 2.0)
-              ),
-              height: 108.0,
-              width: 346.0,
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "Make a ",
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 40.0,
-                            color: Color(0xFFFFFFFF),
-                            fontWeight: FontWeight.w500
-                        ),
-                        textAlign: TextAlign.start,
-                      ),
-                      Text(
-                        "TRIP ",
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 40.0,
-                            color: Color(0xFF3FCC59),
-                            fontWeight: FontWeight.bold
-                        ),
-                        textAlign: TextAlign.start,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 2.0,
-                  ),
-                  Text(
-                    "Bibendum etiam ut sit quam ultrices elementum, morbi.Bibendum etiam",
-                    style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 12.0,
-                        color: Color(0xFFFFFFFF),
-                        fontWeight: FontWeight.w100
-                    ),
-                    textAlign: TextAlign.center,)
-                ],
-              ),
-            ),
-          ),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50.0),bottomRight: Radius.circular(50.0)),
-              image: DecorationImage(
-                  fit: BoxFit.fill,
-                  colorFilter: ColorFilter.mode(Color(0xFF000000).withOpacity(0.4), BlendMode.darken),
-                  image: AssetImage("image/Background.png",)
-              )
-          ),
 
-        ),
+        Background(),
+
         SizedBox(
           height: 30,
         ),
@@ -632,7 +573,7 @@ class _TripState extends State<MakeTrip>{
                               ),
                             ),
                           ),
-                          Icon(Icons.calendar_today, color: Colors.white,size: 40.0,),
+                          Icon(Icons.calendar_today, color: Colors.white,size: 30.0,),
 
                         ],
                       )

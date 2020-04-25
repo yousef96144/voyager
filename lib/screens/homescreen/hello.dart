@@ -1,0 +1,29 @@
+import 'package:flutter/cupertino.dart';
+
+class Hello extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return  Container(
+      padding: EdgeInsets.only(left: 20),
+      child: Row(
+        children: <Widget>[
+          Text(
+            'Hello, ',
+            style: TextStyle(
+                fontSize: 35.0,
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w300),
+          ),
+          Text(
+            'Rostom',
+            style: TextStyle(
+                fontSize: 35.0,
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w500),
+          )
+        ],
+      ),
+    );
+  }
+
+}

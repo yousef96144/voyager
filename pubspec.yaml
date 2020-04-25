@@ -22,8 +22,8 @@ dependencies:
   intl: ^0.16.1
   smooth_star_rating: 1.0.4+2
   rating_bar: 0.2.0
-
-
+  image_picker: ^0.6.3+4
+  image_cropper: ^1.2.1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
@@ -46,10 +46,12 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   - image/logo.png
-   - image/Background.png
-   - image/Cover.png
-   - image/Ellipse 4.png
+    - assets/image/logo.png
+    - assets/image/Background.png
+    - assets/image/Cover.png
+    - assets/image/expert.png
+    - assets/image/profile.png
+    - assets/image/prolo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -63,16 +65,17 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-     - family: Raleway
-       fonts:
-         - asset: Fonts/Raleway-Bold.ttf
-         - asset: Fonts/Raleway-Light.ttf
-     - family: Poppins
-       fonts:
-         - asset: Fonts/Poppins-Regular.ttf
-         - asset: Fonts/Poppins-Bold.ttf
-         - asset: Fonts/Poppins-Bolditalic.ttf
-         - asset: Fonts/Poppins-Medium.ttf
-
+    - family: Raleway
+      fonts:
+        - asset: assets/Fonts/Raleway-Bold.ttf
+        - asset: assets/Fonts/Raleway-Light.ttf
+          style: italic
+    - family: Poppins
+      fonts:
+        - asset: assets/Fonts/Poppins-Regular.ttf
+        - asset: assets/Fonts/Poppins-Bold.ttf
+        - asset: assets/Fonts/Poppins-Bolditalic.ttf
+        - asset: assets/Fonts/Poppins-Medium.ttf
+  #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
