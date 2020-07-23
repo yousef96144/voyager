@@ -1,7 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../tabs_screen.dart';
-import '../profile..dart';
+import '../../API/API.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
+
 class LogInput extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -10,9 +15,165 @@ class LogInput extends StatefulWidget{
 
 }
 class StateLogInput extends State<LogInput>{
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
+
   final emailController=TextEditingController();
   final passwordController=TextEditingController();
 
+  bool _isLoading=false;
+  var error;
+
+  var accepted;
+  bool storedPassword=false;
+  _getData()async{
+    SharedPreferences localStorage=await SharedPreferences.getInstance();
+    print(localStorage.getString("password"));
+    if(localStorage.getString('password')!=null){
+      storedPassword=true;
+        emailController.text=localStorage.getString('email');
+        passwordController.text=localStorage.getString('password');
+        forLogin(context);
+
+    }
+
+
+
+  }
+   _alertStorePassword(BuildContext context){
+     Alert(
+       context: context,
+       type: AlertType.warning,
+       title: "Save Password",
+       desc: "Do you want to save password",
+       buttons: [
+         DialogButton(
+           child: Text(
+             "Yes",
+             style: TextStyle(color: Colors.white, fontSize: 20),
+           ),
+           onPressed: _saveData,
+           color: Color.fromRGBO(0, 179, 134, 1.0),
+         ),
+         DialogButton(
+           child: Text(
+             "No",
+             style: TextStyle(color: Colors.white, fontSize: 20),
+           ),
+           onPressed: () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>TabsScreen())),
+           gradient: LinearGradient(colors: [
+             Color.fromRGBO(116, 116, 191, 1.0),
+             Color.fromRGBO(52, 138, 199, 1.0)
+           ]),
+         )
+       ],
+     ).show();
+
+    }
+
+  _saveData()async{
+
+    SharedPreferences localStorage=await SharedPreferences.getInstance();
+    localStorage.setString('email', emailController.text);
+    localStorage.setString('password', passwordController.text);
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>TabsScreen()));
+
+  }
+   _showChoiceDialog(BuildContext context){
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "error ",
+      desc: "Connection failed",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "ok",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            Navigator.pop(context);
+            setState(() {
+              _isLoading=false;
+            });
+          },
+          color: Color.fromRGBO(0, 179, 134, 1.0),
+        ),
+
+      ],
+    ).show();
+  }
+
+  forLogin(BuildContext context) async {
+
+    setState(() {
+      _isLoading=true;
+    });
+    _setHeaders()=>{
+      'Content-type' : 'application/json',
+    };
+    var data = {
+
+      'email': emailController.text,
+
+      'password': passwordController.text,
+
+    };
+    const String mainUrl ="auth/login";
+
+     try{
+       var res = await CallApi().postData(data,mainUrl,_setHeaders());
+
+
+
+
+       var body = json.decode(res);
+
+
+
+       accepted=body["success"];
+
+
+       if (accepted!=null) {
+//        SharedPreferences localStorage=await SharedPreferences.getInstance();
+//        localStorage.setString('token', body['token']);
+//        localStorage.setString('user', json.encode(body['user']));
+         print(body['success']['token']);
+         SharedPreferences tokenLocalStorage=await SharedPreferences.getInstance();
+         tokenLocalStorage.setString('token', body['success']['token']);
+         if(storedPassword==true){
+           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>TabsScreen()));
+
+         }else{
+           _alertStorePassword(context);
+
+         }
+
+       }
+       else {
+         setState(() {
+
+           error = body['error'];
+           print("\n");
+           print(error);
+           _isLoading=false;
+
+         });
+       }
+//      }
+
+     }catch(error){
+       print("\n$error");
+
+          _showChoiceDialog(context);
+
+     }
+
+
+  }
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -124,7 +285,23 @@ class StateLogInput extends State<LogInput>{
                       ),
                       onTap: (){},
                     ),
-
+                    Container(
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.67,
+                        child:
+                        error!=null ?
+                        Text("* Email or Password is incorret",
+                          style: TextStyle(
+                              fontFamily: 'Poppins',
+                              color: Colors.red,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400
+                          ),
+                        )
+                            : null
+                    ),
                   ],
                 ),
               ),
@@ -149,10 +326,33 @@ class StateLogInput extends State<LogInput>{
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent, // makes highlight invisible too
                       colorBrightness: Brightness.light,
-                      onPressed: (){
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>TabsScreen()));
-                      },
-                      child: Text("login",
+                      onPressed: _isLoading ? null :()=>forLogin(context),
+                      child:_isLoading ?
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "logining...",
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 18.0,
+                                color: Color(0xFFFFFFFF),
+                                fontWeight: FontWeight.w600
+                            ),
+
+
+                            //   style: Theme.of(context).textTheme.button,
+                          ),
+                          CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+
+                          ),
+
+                        ],
+                      )
+                          : Text(
+                        "login",
                         style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 18.0,

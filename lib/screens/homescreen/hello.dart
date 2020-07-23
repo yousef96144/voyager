@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 
 class Hello extends StatelessWidget{
+ final String userName;
+  Hello(
+      this.userName
+      );
   @override
   Widget build(BuildContext context) {
     return  Container(
@@ -15,7 +19,7 @@ class Hello extends StatelessWidget{
                 fontWeight: FontWeight.w300),
           ),
           Text(
-            'Rostom',
+           "$userName" ,
             style: TextStyle(
                 fontSize: 35.0,
                 fontFamily: "Poppins",

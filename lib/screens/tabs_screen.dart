@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import '../screens/home.dart';
 import '../screens/maketrip.dart';
 import '../screens/myprofile.dart';
-import '../screens/profile..dart';
-import 'login.dart';
-import 'signup.dart';
+
+import './seemorescreens/searchtrips.dart';
+
+
 
 class TabsScreen extends StatefulWidget {
   @override
@@ -13,16 +14,10 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
 
-  @override
-
-  //  void initState() {
-  //    super.initState();
-  //    print('text bottom navigationbar');
-  //  }
 
   List<Widget> _pages=[
     Home(),
-    Profile(),
+    SearchTrips(),
     MakeTrip(),
     MyProfile()
   ];
@@ -36,7 +31,6 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     print('here is wedgit of tabs screen');
-
     return Scaffold(
       body: _pages[_selectedPageIndex] ,
       floatingActionButton: FloatingActionButton(

@@ -1,32 +1,37 @@
+
+
 import 'package:flutter/material.dart';
+import 'package:voyager/screens/seemoretrips.dart';
 import 'homescreen/hello.dart';
 import 'homescreen/search.dart';
 import 'homescreen/recenttrips.dart';
 import 'homescreen/topvoyager.dart';
+import '../API/API.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../screens/login.dart';
+
+
 
 //import 'package:voyager/trips.dart';
 
 class Home extends StatefulWidget {
-  //Home({Key key}) : super(key: key);
-
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  @override
-  //  void initState() {
-  //    super.initState();
-  //    print('navigate to home');
-  //  }
-  Widget myDrawer(){
+
+  String myName;
+  String avatar="assets/image/users/default.png";
+  String email;
+  Widget myDrawer(String avatar){
     final drawerHeader = UserAccountsDrawerHeader(
-      accountName: Text('User Name'),
-      accountEmail: Text('user.name@emailcom'),
+      accountName: Text('$myName'),
+      accountEmail: Text('$email'),
       currentAccountPicture: CircleAvatar(
-        child: FlutterLogo(
-          size: 42.0,
-        ),
+       // radius: 50.0,
+        child: CircleImage(radios: 20, imageProvider: AssetImage(avatar)),
         backgroundColor: Colors.white,
       ),
     );
@@ -40,10 +45,97 @@ class _HomeState extends State<Home> {
         ),
         ListTile(
           title: Text('to page 2'),
+        ),
+        ListTile(
+          title: Text('logout'),
+          leading: Icon(Icons.arrow_back_ios),
+          onTap: (){logout(context);},
         )
+
       ],
     );
     return drawItems;
+  }
+  getUserInfo(BuildContext context) async {
+
+    SharedPreferences tokenLocalStorage=await SharedPreferences.getInstance();
+    String currentToken=tokenLocalStorage.getString('token');
+
+    print("\nwe are in get user info\n");
+    print(currentToken);
+     String authentication= 'Bearer ' + currentToken;
+     print(authentication);
+    _setHeaders()=>{
+//      'Content-type' : 'application/json',
+      "Accept": 'application/json',
+      "Authorization": authentication
+    };
+    var data = {
+
+
+
+    };
+    const String mainUrl ="auth/getUser";
+
+
+    var res = await CallApi().postData(data,mainUrl,_setHeaders());
+
+
+
+
+    var body = json.decode(res);
+
+    print(body);
+
+    print(body["success"]);
+    setState(() {
+      myName=body["success"]["name"];
+      email=body["success"]["email"];
+      avatar="assets/image/"+(body["success"]["avatar"]);
+      tokenLocalStorage.setInt("Id", body["success"]["id"]);
+    });
+
+
+
+  }
+
+
+  logout(BuildContext context) async {
+    SharedPreferences tokenLocalStorage = await SharedPreferences.getInstance();
+    String currentToken = tokenLocalStorage.getString('token');
+    print("\nwe are in get user info\n");
+    print(currentToken);
+    String authentication = 'Bearer ' + currentToken;
+    print(authentication);
+    _setHeaders() =>
+        {
+//      'Content-type' : 'application/json',
+          "Accept": 'application/json',
+          "Authorization": authentication
+        };
+    var data = {
+    };
+    const String mainUrl = "auth/logout";
+
+
+    var res = await CallApi().postData(data, mainUrl, _setHeaders());
+
+
+    var body = json.decode(res);
+
+    print(body);
+
+    print(body["success"]);
+   tokenLocalStorage.clear();
+   currentToken=null;
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context)=>Login()));
+  }
+    @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserInfo(context);
   }
   @override
   Widget build(BuildContext context) {
@@ -58,25 +150,25 @@ class _HomeState extends State<Home> {
             color: Colors.black,
           ),
           actions: <Widget>[
-            Container(
-              height:38.0,
-              width: 38.0,
-
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image:AssetImage('assets/image/prolo.png')
-
-                  )
-              ),)
-//            CircleImage(
-//                radios: 20, imageProvider: AssetImage('image/Ellipse 4.png'))
+//            Container(
+//
+//
+//              decoration: BoxDecoration(
+//                  shape: BoxShape.circle,
+//
+//                  image: DecorationImage(
+//                      fit: BoxFit.cover,
+//                      image:AssetImage(avatar)
+//
+//
+//                  )
+//              ),)
+            CircleImage(
+                radios: 20, imageProvider: AssetImage(avatar))
           ],
         ),
         drawer: Drawer(
-          child: myDrawer(),
+          child: myDrawer(avatar),
         ),
         body: ListView(
           children: <Widget>[
@@ -84,7 +176,15 @@ class _HomeState extends State<Home> {
               height: 10,
             ),
 
-            Hello(),
+           myName==null?
+           Container(
+             child: CircularProgressIndicator(
+               strokeWidth: 2,
+               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+
+             ),
+           )
+               : Hello(myName),
 
             SizedBox(
               height: 5,
@@ -110,15 +210,46 @@ class _HomeState extends State<Home> {
               height: 20,
             ),
             /////////////////////////////////////////Recently added/////////////////////////////////////////
-            Container(
-              padding: EdgeInsets.only(left: 22),
-              child: Text(
-                'Recently added',
-                style: TextStyle(
-                    fontSize: 22,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500),
-              ),
+            Row(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(left: 22),
+                  child: Text(
+                    'Recently added',
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent, // makes highlight invisible too
+                      onTap: (){
+//                    TextStyle(decoration: TextDecoration.underline);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context)=>SeeMoreTrips(),
+                          ),
+                        );                      },
+                      child: Text("See More..",
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFF3FCC59) ,
+
+
+                        ),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
 
             RecentTrips(),

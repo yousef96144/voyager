@@ -24,6 +24,9 @@ dependencies:
   rating_bar: 0.2.0
   image_picker: ^0.6.3+4
   image_cropper: ^1.2.1
+  rflutter_alert: ^1.0.3
+  http: ^0.12.1
+  shared_preferences: ^0.5.7
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
@@ -49,9 +52,11 @@ flutter:
     - assets/image/logo.png
     - assets/image/Background.png
     - assets/image/Cover.png
-    - assets/image/expert.png
-    - assets/image/profile.png
-    - assets/image/prolo.png
+    - assets/image/tripphoto.png
+    - assets/image/covertrip.png
+    - assets/image/users/default.png
+    - assets/image/users/profile.png
+    - assets/image/users/prolo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

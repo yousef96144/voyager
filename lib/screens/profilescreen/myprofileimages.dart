@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:voyager/screens/home.dart';
 import 'dart:io';
 import 'dart:async';
 
@@ -17,6 +18,8 @@ class MyProfileImages extends StatefulWidget{
 class _StateImages extends State<MyProfileImages>{
 
   File imagePicker;
+  String avatar="assets/image/users/default.png";
+
 
   _openGallery(BuildContext context)async{
     var picture=await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -95,57 +98,68 @@ class _StateImages extends State<MyProfileImages>{
         Positioned(
           top: MediaQuery.of(context).size.height * 0.2,
           child: Container(
-            height: MediaQuery.of(context).size.height*0.245,
-            width: MediaQuery.of(context).size.width*0.465,
-
             decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white,width:5.0),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: imagePicker == null
-                      ? AssetImage('assets/image/profile.png')
-                      : FileImage(imagePicker),
-                )
-            ),
-            child: Container(
-              height: MediaQuery.of(context).size.height*0.245,
-              width: MediaQuery.of(context).size.width*0.465,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,),
-              child: Stack(children: <Widget>[
-                Positioned(
-                    bottom: 5,
-                    right: 5,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30)
-                      ),
-                      padding: EdgeInsets.only(top: 6),
-                      child: Material(
-                        color: Color(0xFFF4F8FF),
-
-                        borderRadius: BorderRadius.circular(30.0),
-                        elevation: 2.0,
-                        child: IconButton(
-
-                          iconSize: 25.0,
-                          icon: Icon(
-                            Icons.photo_camera,
-                            // color: Color(0xFF3FCC59),
-                          ),
-                          onPressed: (){_showChoiceDialog(context);},
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors
-                              .transparent, // makes highlight invisible too
-                        ),
-                      ),
-                    )
+               border: Border.all(width:5.0,color: Colors.white),
+              shape: BoxShape.circle,
+              boxShadow:  [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 5.0, // has the effect of softening the shadow
+                  spreadRadius: 5.0, // has the effect of extending the shadow
+                  offset: Offset(
+                    10.0, // horizontal, move right 10
+                    10.0, // vertical, move down 10
+                  ),
                 )
               ],
+            ),
+            child: CircleAvatar(
+              radius: 70.0,
+              backgroundImage: imagePicker == null ?
+                AssetImage(avatar)
+                  : FileImage(imagePicker),
+              child: Container(
+                height: MediaQuery.of(context).size.height*0.200,
+                width: MediaQuery.of(context).size.width*0.425,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,),
+                child: Stack(children: <Widget>[
+                  Positioned(
+                      bottom: 0,
+                      right: 1,
+                      child: Container(
+
+                        decoration: BoxDecoration(
+
+                            borderRadius: BorderRadius.circular(30)
+                        ),
+                        padding: EdgeInsets.only(top: 6),
+                        child: Material(
+                          color: Color(0xFFE9EFF1),
+
+                          borderRadius: BorderRadius.circular(30.0),
+                          elevation: 2.0,
+                          child: IconButton(
+
+                            iconSize: 25.0,
+                            icon: Icon(
+                              Icons.photo_camera,
+                               color: Color(0xFF839195),
+                            ),
+                            onPressed: (){_showChoiceDialog(context);},
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors
+                                .transparent, // makes highlight invisible too
+                          ),
+                        ),
+                      )
+                  )
+                ],
+                ),
               ),
             ),
           ),
+
         )
       ]),
     );
