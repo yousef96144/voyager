@@ -2,20 +2,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:voyager/screens/home.dart';
 import 'dart:io';
 import 'dart:async';
-
+import '../../API/API.dart';
+import 'dart:convert';
 import 'package:voyager/screens/profilescreen/background.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyProfileImages extends StatefulWidget{
+  final String myName;
+ final String email;
+ final String phone;
+  MyProfileImages(this.myName,this.email,this.phone);
   @override
   State<StatefulWidget> createState() {
-    return _StateImages();
+    return _StateImages(myName,email,phone);
   }
 
 }
 class _StateImages extends State<MyProfileImages>{
+ final String myName;
+ final String email;
+ final String phone;
+  _StateImages(this.myName,this.email,this.phone);
 
   File imagePicker;
   String avatar="assets/image/users/default.png";
@@ -37,6 +46,7 @@ class _StateImages extends State<MyProfileImages>{
     });
     Navigator.of(context).pop();
 
+
   }
 
   _openCamera(BuildContext context)async{
@@ -46,6 +56,7 @@ class _StateImages extends State<MyProfileImages>{
         aspectRatio: CropAspectRatio(ratioX: 2,ratioY: 2),
         maxHeight: 250,
         maxWidth: 250,
+
         cropStyle: CropStyle.circle,
         compressQuality: 44
 
@@ -55,6 +66,7 @@ class _StateImages extends State<MyProfileImages>{
       imagePicker=picture ;
     });
     Navigator.of(context).pop();
+
   }
 
   Future<void> _showChoiceDialog(BuildContext context){
@@ -88,6 +100,49 @@ class _StateImages extends State<MyProfileImages>{
       );
     });
   }
+//  updateUserImage(BuildContext context) async {
+//    print("\nwe are in get update user image\n");
+//
+//    SharedPreferences tokenLocalStorage=await SharedPreferences.getInstance();
+//    String currentToken=tokenLocalStorage.getString('token');
+//    String password=tokenLocalStorage.getString("password");
+//    String confirmPassword=password;
+//
+//    //   print(currentToken);
+//    String authentication= 'Bearer ' + currentToken;
+// //   print(authentication);
+//    _setHeaders()=>{
+////      'Content-type' : 'application/json',
+//      "Accept": 'application/json',
+//      "Authorization": authentication
+//    };
+//    var data = {
+//      'name':'fady',
+//      'email':'fady1996@gmail.com',
+//      'password':'fady1234',
+//      'password_confirmation': 'fady1234',
+//      'phone_number':'01012345612',
+//      'avatar': imagePicker.path,
+//
+//    };
+//    const String mainUrl ="auth/update";
+//
+//
+//    var res = await CallApi().postData(data,mainUrl,_setHeaders());
+//
+//
+//
+//
+//    var body = json.decode(res);
+//
+//    print(body);
+//
+//   // print(body["success"]);
+//
+//
+//
+//
+//  }
 
   @override
   Widget build(BuildContext context) {

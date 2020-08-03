@@ -23,7 +23,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   String myName;
-  String avatar="assets/image/users/default.png";
+  String avatar;
   String email;
   Widget myDrawer(String avatar){
     final drawerHeader = UserAccountsDrawerHeader(
@@ -31,7 +31,17 @@ class _HomeState extends State<Home> {
       accountEmail: Text('$email'),
       currentAccountPicture: CircleAvatar(
        // radius: 50.0,
-        child: CircleImage(radios: 20, imageProvider: AssetImage(avatar)),
+        child: Image.network(avatar),
+//        avatar!=null? CircleImage(radios: 20, imageProvider: AssetImage(avatar))
+//            :Container(
+//          //    height: MediaQuery.of(context).size.height * 0.6,
+//            color: Color(0xFFE5F3EB),
+//            child:  CircularProgressIndicator(
+//              strokeWidth: 2,
+//              valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+//
+//            )
+//        ),
         backgroundColor: Colors.white,
       ),
     );
@@ -91,7 +101,7 @@ class _HomeState extends State<Home> {
     setState(() {
       myName=body["success"]["name"];
       email=body["success"]["email"];
-      avatar="assets/image/"+(body["success"]["avatar"]);
+      avatar=body["success"]["avatar"];
       tokenLocalStorage.setInt("Id", body["success"]["id"]);
     });
 
@@ -163,8 +173,9 @@ class _HomeState extends State<Home> {
 //
 //                  )
 //              ),)
-            CircleImage(
-                radios: 20, imageProvider: AssetImage(avatar))
+            CircleAvatar(
+             //   radios: 20,
+                child:Image.network(avatar))
           ],
         ),
         drawer: Drawer(

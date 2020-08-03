@@ -38,7 +38,6 @@ class _StateRecentTrips extends State<RecentTrips>{
     var body = json.decode(res);
 
     print(body);
-print(_lastTenTrips);
 
     setState(() {
       _lastTenTrips=body["data"];
@@ -77,7 +76,7 @@ print(_lastTenTrips);
             child: GestureDetector(
               onTap: (){
                 print("welcome");
-                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>TripDetailsView(tr['id'])));
+                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>TripDetailsView(tr['id'],tr['user']['name'],tr['user']['rate'],tr['user']['id'])));
               },
               child: Card(
                 elevation: 0,

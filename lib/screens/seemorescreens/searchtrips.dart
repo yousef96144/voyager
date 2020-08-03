@@ -4,6 +4,8 @@ import '../../API/API.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
+import '.././tripdetails.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class SearchTrips extends StatefulWidget{
   @override
@@ -75,18 +77,38 @@ class StateSearchTrips extends State<SearchTrips>{
                             style: TextStyle(
                                 fontSize: 15.0, fontFamily: 'Poppins',fontWeight: FontWeight.w700),
                           ),
-                          subtitle: Row(
+                          subtitle: Column(
                             children: <Widget>[
-                              Text(
-                                  DateFormat.yMMMEd().format(DateTime.parse(tr["departure_date"]))),
-                              SizedBox(
-                                width: 5.0,
+                              Row(
+                                children: <Widget>[
+                                  Text(
+                                      DateFormat.yMMMEd().format(DateTime.parse(tr["departure_date"]))),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Text(
+                                    DateFormat.jm().format(DateTime.parse(tr["departure_date"])),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                DateFormat.jm().format(DateTime.parse(tr["departure_date"])),
-                              ),
+                              SmoothStarRating(
+                                  allowHalfRating: true,
+
+                                  starCount: 5,
+                                  rating: 3.5,
+                                  size: 20.0,
+                                  //fullRatedIconData: Icons.blur_off,
+                                  //halfRatedIconData: Icons.blur_on,
+                                  color: Color(0xFF3FCC59),
+                                  borderColor:Color(0xFF3FCC59),
+                                  spacing:0.0
+                              )
                             ],
-                          ),                          onTap: (){},
+                          ),
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>TripDetailsView(tr['id'],tr['user']['name'],tr['user']['rate'],tr['user']['id'])));
+
+                          },
 
                         ),
                       ),

@@ -237,6 +237,7 @@ class StateLogInput extends State<LogInput>{
                       ),
                       // color: Color(0xFFF4F8FF),
                       child: TextFormField(
+                        obscureText: true,
                         style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 15.0,
