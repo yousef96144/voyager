@@ -220,18 +220,7 @@ print("\nwe are in delete user offer");
                                 ),
                               ],
                             ),
-                            SmoothStarRating(
-                                allowHalfRating: true,
 
-                                starCount: 5,
-                                rating: 3.5,
-                                size: 20.0,
-                                //fullRatedIconData: Icons.blur_off,
-                                //halfRatedIconData: Icons.blur_on,
-                                color: Color(0xFF3FCC59),
-                                borderColor:Color(0xFF3FCC59),
-                                spacing:0.0
-                            )
                           ],
                         ),
                        onLongPress: (){
@@ -277,10 +266,10 @@ print("\nwe are in delete user offer");
   void _startUpdateOffer(BuildContext ctx,int offerId,int tripId,int offerPrice, int numOfSeats){
     print("we entered startaddnewtrans");
 
-    showModalBottomSheet(backgroundColor:Colors.greenAccent ,context: ctx, builder: (_){
+    showModalBottomSheet(backgroundColor:Colors.white ,context: ctx, builder: (_){
 
       return Container(
-        color: Colors.greenAccent,
+        color: Colors.white,
         height: MediaQuery.of(context).size.height*0.3,
         child: GestureDetector(
           onTap: (){},

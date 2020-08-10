@@ -10,6 +10,7 @@ import '../API/API.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../screens/login.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 
 
@@ -31,17 +32,30 @@ class _HomeState extends State<Home> {
       accountEmail: Text('$email'),
       currentAccountPicture: CircleAvatar(
        // radius: 50.0,
-        child: Image.network(avatar),
-//        avatar!=null? CircleImage(radios: 20, imageProvider: AssetImage(avatar))
-//            :Container(
-//          //    height: MediaQuery.of(context).size.height * 0.6,
-//            color: Color(0xFFE5F3EB),
-//            child:  CircularProgressIndicator(
-//              strokeWidth: 2,
-//              valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
-//
-//            )
+        child:
+//        Stack(
+//          children: <Widget>[
+//            Center(child: CircularProgressIndicator()),
+//            Center(
+//              child: FadeInImage.memoryNetwork(
+//                placeholder: kTransparentImage,
+//                image: 'avatar',
+//              ),
+//            ),
+//          ],
 //        ),
+//        Image.network(avatar),
+        avatar!=null? CircleImage(radios: 35, imageProvider: NetworkImage(avatar))
+            :Container(
+          //    height: MediaQuery.of(context).size.height * 0.6,
+            color: Color(0xFFE5F3EB),
+            child:  CircularProgressIndicator(
+              value: 5.0,
+              strokeWidth: 2,
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+
+            )
+        ),
         backgroundColor: Colors.white,
       ),
     );
@@ -81,7 +95,6 @@ class _HomeState extends State<Home> {
       "Authorization": authentication
     };
     var data = {
-
 
 
     };
@@ -160,23 +173,22 @@ class _HomeState extends State<Home> {
             color: Colors.black,
           ),
           actions: <Widget>[
-//            Container(
-//
-//
-//              decoration: BoxDecoration(
-//                  shape: BoxShape.circle,
-//
-//                  image: DecorationImage(
-//                      fit: BoxFit.cover,
-//                      image:AssetImage(avatar)
-//
-//
-//                  )
-//              ),)
-            CircleAvatar(
-             //   radios: 20,
-                child:Image.network(avatar))
-          ],
+
+                      CircleAvatar(child:  avatar==null?
+                      CircularProgressIndicator(
+                        strokeWidth: 3,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+
+                      ):
+                      CircleImage(radios: 20, imageProvider: NetworkImage(avatar)
+                      ),
+                        backgroundColor: Colors.white,
+
+                      )
+
+
+
+            ],
         ),
         drawer: Drawer(
           child: myDrawer(avatar),
@@ -294,7 +306,7 @@ class _HomeState extends State<Home> {
 class CircleImage extends StatelessWidget {
   CircleImage({this.imageProvider, this.radios = 20});
 
-  final ImageProvider imageProvider;
+  final NetworkImage imageProvider;
   final double radios;
 
   @override

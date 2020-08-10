@@ -64,8 +64,8 @@ class UpdateTrips extends StatefulWidget{
       @override
   void initState() {
     super.initState();
-    startUp.text=from;
-    destination.text=to;
+    startUp=from;
+    destination=to;
     carModelController.text=carModel;
     priceController.text=tripPrice.toString();
     currentItemSelected=numOfSeats.toString();
@@ -75,8 +75,7 @@ class UpdateTrips extends StatefulWidget{
 
   }
 
-      final startUp = TextEditingController();
-      final destination = TextEditingController();
+
       final carModelController = TextEditingController();
       final priceController = TextEditingController();
       final messageController = TextEditingController();
@@ -86,6 +85,38 @@ class UpdateTrips extends StatefulWidget{
       TimeOfDay _recentTime;
       DateTime _recentDate;
 
+      static const provinceItems=<String>[
+        "select",
+        'Alexandria',
+        'Aswan',
+        "Asyut",
+        'Beheira',
+        'Beni Suef',
+        'Cairo',
+        'Dakahlia',
+        'Damietta',
+        'Faiyum',
+        'Gharbia',
+        'Giza',
+        'Ismailia',
+        'Kafr El Sheikh',
+        'Luxor',
+        'Matruh',
+        'Minya',
+        'Monufia',
+        'New Valley',
+        'North Sinai',
+        'Port Said',
+        'Qalyubia',
+        'Qena',
+        'Red Sea',
+        'Sharqia',
+        'Sohag',
+        'South Sinai',
+        'Suez',
+      ];
+      var startUp='select';
+      var destination='select';
       List<String> _numOfPasses = ["1", "2", "3", "4"];
       var currentItemSelected ;
 
@@ -163,6 +194,21 @@ class UpdateTrips extends StatefulWidget{
         setState(() {
           _isLoading = true;
         });
+        if(destination=="select"){
+          setState(() {
+            _isLoading=false;
+            errorTo = "select the start";
+
+          });
+          return;
+        }else  if(destination=="select"){
+          setState(() {
+            _isLoading=false;
+            errorTo = "select the destination";
+
+          });
+          return;
+        }
         SharedPreferences tokenLocalStorage = await SharedPreferences
             .getInstance();
         String currentToken = tokenLocalStorage.getString('token');
@@ -181,8 +227,8 @@ class UpdateTrips extends StatefulWidget{
               "Authorization": authentication
             };
         var data = {
-          'from': startUp.text,
-          'to': destination.text,
+          'from': startUp,
+          'to': destination,
           'car_model': carModelController.text,
           'price_per_passenger': priceController.text,
           'number_of_empty_seats': currentItemSelected,
@@ -299,46 +345,30 @@ class UpdateTrips extends StatefulWidget{
                               color: Color(0xFFE9EFF1),
 
                             ),
-                            child: TextFormField(
-                              keyboardType: TextInputType.text,
-                              textAlign: TextAlign.center,
-                              textCapitalization: TextCapitalization.characters,
-                              autocorrect: true,
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 15.0,
-                                color: Color(0xFF839195),
-                              ),
-                              decoration: InputDecoration(
-
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      //    style: BorderStyle.none,
-                                        color: errorFrom != null
-                                            ? Colors.red
-                                            : Color(0xFFE9EFF1)),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(30.0))
-                                ),
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 17.5, horizontal: 40.0),
-                                labelText: 'From',
-                                labelStyle: TextStyle(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:10.0),
+                              child: DropdownButton<String>(
+                                underline: null,
+                                style: TextStyle(
                                     fontFamily: 'Poppins',
                                     color: Color(0xFF839195),
                                     fontSize: 18
                                 ),
-
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-
-                                ),
-
+                                isExpanded: true,
+                                items: provinceItems.map((String dropDownStringItems){
+                                  return DropdownMenuItem<String>(
+                                    value: dropDownStringItems,
+                                    child: Text(dropDownStringItems),
+                                  );
+                                }).toList(),
+                                onChanged: (String newValueSelected){
+                                  if(newValueSelected!=destination)
+                                    setState(() {
+                                      this.startUp=newValueSelected;
+                                    });
+                                },
+                                value: startUp,
                               ),
-                              controller: startUp,
-                              //  onSubmitted: (_) => _submitData() ,
-
-
                             ),
                           )
                           ,
@@ -351,7 +381,7 @@ class UpdateTrips extends StatefulWidget{
                                   .size
                                   .width * 0.40,
                               child:
-                              errorFrom != null ?
+                              errorFrom!=null ?
                               Text(
                                 "* ${errorFrom[0]}",
                                 style: TextStyle(
@@ -369,17 +399,11 @@ class UpdateTrips extends StatefulWidget{
                     ),
 ///////////////////////////////////////////////////////////////////////
                     SizedBox(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.04,
+                      width:  MediaQuery.of(context).size.width* 0.04,
                     ),
 /////////////////////////////////////////////////////////////////////////
                     Container(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.40,
+                      width: MediaQuery.of(context).size.width* 0.40,
                       height: 100,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -404,53 +428,35 @@ class UpdateTrips extends StatefulWidget{
                           ),
                           Container(
                             height: 56.0,
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.40,
+                            width: MediaQuery.of(context).size.width* 0.40,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30.0),
                                 //  border: Border.all(width: 5),
                                 color: Color(0xFFE9EFF1)
                             ),
-                            child: TextFormField(
-                              keyboardType: TextInputType.text,
-                              textAlign: TextAlign.center,
-                              textCapitalization: TextCapitalization.characters,
-                              autocorrect: true,
-
-
-                              style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 15.0,
-                                  color: Color(0xFF839195)
-                              ),
-                              decoration: InputDecoration(
-                                labelText: 'Dest',
-                                labelStyle: TextStyle(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:10.0),
+                              child: DropdownButton<String>(
+                                style: TextStyle(
                                     fontFamily: 'Poppins',
                                     color: Color(0xFF839195),
                                     fontSize: 18
                                 ),
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 17.5, horizontal: 40.0),
-                                border:
-                                OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0)
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: errorTo != null
-                                            ? Colors.red
-                                            : Color(0xFFD7D7D7)),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(30.0))
-                                ),
+                                isExpanded: true,
+                                items: provinceItems.map((String dropDownStringItems){
+                                  return DropdownMenuItem<String>(
+                                    value: dropDownStringItems,
+                                    child: Text(dropDownStringItems),
+                                  );
+                                }).toList(),
+                                onChanged: (String newValueSelected){
+                                  if(newValueSelected!=startUp)
+                                    setState(() {
+                                      this.destination=newValueSelected;
+                                    });
+                                },
+                                value: destination,
                               ),
-                              controller: destination,
-                              //  onSubmitted: (_) => _submitData() ,
-
-
                             ),
                           ),
                           SizedBox(

@@ -17,15 +17,45 @@ class SearchTrips extends StatefulWidget{
 class StateSearchTrips extends State<SearchTrips>{
 
 
- bool typing=false;
+ bool _isLoading=false;
 
-
+ static const provinceItems=<String>[
+   'Alexandria',
+   'Aswan',
+   "Asyut",
+   'Beheira',
+   'Beni Suef',
+   'Cairo',
+   'Dakahlia',
+   'Damietta',
+   'Faiyum',
+   'Gharbia',
+   'Giza',
+   'Ismailia',
+   'Kafr El Sheikh',
+   'Luxor',
+   'Matruh',
+   'Minya',
+   'Monufia',
+   'New Valley',
+   'North Sinai',
+   'Port Said',
+   'Qalyubia',
+   'Qena',
+   'Red Sea',
+   'Sharqia',
+   'Sohag',
+   'South Sinai',
+   'Suez',
+ ];
+ var startUp='Cairo';
+ var destination='Cairo';
 //final searchTripController=TextEditingController();
   List<dynamic> searchResults;
   var noResultMessage;
 
   Widget showSearchResult() {
-    if(searchResults==null&&noResultMessage==null)
+    if(searchResults==null&&noResultMessage==null&&_isLoading==true)
      {
        return  Container(
         //    height: MediaQuery.of(context).size.height * 0.6,
@@ -92,10 +122,9 @@ class StateSearchTrips extends State<SearchTrips>{
                                 ],
                               ),
                               SmoothStarRating(
-                                  allowHalfRating: true,
 
                                   starCount: 5,
-                                  rating: 3.5,
+                                  rating: double.parse(tr["user_rating"].toString()),
                                   size: 20.0,
                                   //fullRatedIconData: Icons.blur_off,
                                   //halfRatedIconData: Icons.blur_on,
@@ -106,7 +135,7 @@ class StateSearchTrips extends State<SearchTrips>{
                             ],
                           ),
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>TripDetailsView(tr['id'],tr['user']['name'],tr['user']['rate'],tr['user']['id'])));
+                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>TripDetailsView(tr['id'],tr['user']['name'],tr['user_rating'],tr['user']['id'],tr['user']['avatar'])));
 
                           },
 
@@ -125,22 +154,25 @@ class StateSearchTrips extends State<SearchTrips>{
 
         ),
       );
-    }else if(noResultMessage!=null||searchResults[1]==null){
+    }else if(noResultMessage!=null){
       return  Expanded(
         child: Container(
             //    height: MediaQuery.of(context).size.height * 0.6,
             color: Color(0xFFE5F3EB),
-            child: Center(child: Text(noResultMessage!=null ?"$noResultMessage":"No trips found")),
+            child: Center(child: Text("No trips found")),
         ),
+      );
+    }else if (_isLoading==false){
+      return Container(
+        child:Center(child: Text("search for the trip you want"))
       );
     }
 
 }
-  getSearchedTrips(text) async {
+  getSearchedTrips() async {
     print("\nwe are in searched trips\n");
-    print('\nthe keyword is $text');
      setState(() {
-       typing=true;
+       _isLoading=true;
        searchResults=null;
        noResultMessage=null;
      });
@@ -152,9 +184,8 @@ class StateSearchTrips extends State<SearchTrips>{
       'Content-type' : 'application/json',
     };
     var data = {
-
-      'keyword': text,
-
+      'from': startUp,
+      'to': destination,
     };
 
     var res = await CallApi().postData(data, mainUrl, _setHeaders());
@@ -209,56 +240,144 @@ class StateSearchTrips extends State<SearchTrips>{
               padding: EdgeInsets.only(left: 10, right: 10, ),
               margin: EdgeInsets.only(top:30.0),
               height: 40.0,
+           //   color: Color(0xFFE9EFF1),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(26.0),
                 // border: Border.all(width: 5),
-                // color: Color.fromRGBO(215, 215, 215, 100)
+                 color: Color(0xFFE9EFF1)
               ),
-              child: Material(
+              child: Row(
+crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
 
-                borderRadius: BorderRadius.circular(25.0),
-                child: TextFormField(
+              Container(
+                width: 40.0,
+                height: 29.0,
+                child: Text(
+                  "From",
                   style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 15.0,
-                    // color: Color.fromRGBO(170, 173, 173, 100)
+                      fontFamily: 'Poppins',
+                      fontSize: 14.0,
+                      color: Color(0xFF3FCC59),
+                      fontWeight: FontWeight.w600
                   ),
-                  decoration: InputDecoration(
-                    filled: true,
-                    prefixIcon: Icon(Icons.search),
-                    labelText: 'search trips',
-                    hintText: '     from   &   Destination ',
-                    hintStyle: TextStyle(
+                  textAlign: TextAlign.start,
+                ),
+
+              ),
+              SizedBox(
+                width: 10.0,
+              ),
+              Container(
+                height: 35.0,
+                width: MediaQuery.of(context).size.width* 0.25,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30.0),
+                  color: Color(0xFFE9EFF1),
+
+                ),
+                child:Padding(
+                  padding: const EdgeInsets.only(left:10.0),
+                  child: DropdownButton<String>(
+                    underline: null,
+                    style: TextStyle(
                         fontFamily: 'Poppins',
                         color: Color(0xFF839195),
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-
-
+                        fontSize: 10
                     ),
-                    labelStyle: TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Color(0xFF839195),
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500),
-                    contentPadding:
-                    EdgeInsets.only(left: 20.0, top: 20,),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFFD7D7D7)),
-                        borderRadius: BorderRadius.all(Radius.circular(25.0))
-                    ),
+                    isExpanded: true,
+                    items: provinceItems.map((String dropDownStringItems){
+                      return DropdownMenuItem<String>(
+                        value: dropDownStringItems,
+                        child: Text(dropDownStringItems),
+                      );
+                    }).toList(),
+                    onChanged: (String newValueSelected){
+                        setState(() {
+                          this.startUp=newValueSelected;
+                        });
+                    },
+                    value: startUp,
                   ),
-                  onChanged: (text){
-                    getSearchedTrips(text);
-
-                  },
                 ),
               ),
+///////////////////////////////////////////////////////////////////////
+              SizedBox(
+                width:  MediaQuery.of(context).size.width* 0.04,
+              ),
+/////////////////////////////////////////////////////////////////////////
+              Container(
+                width: 20.0,
+                height: 29.0,
+                child: Text(
+                  "To",
+                  style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 14.0,
+                      color: Color(0xFF3FCC59),
+                      fontWeight: FontWeight.w600
+                  ),
+                ),
+
+              ),
+              SizedBox(
+                width: 10.0,
+              ),
+              Container(
+                height: 35.0,
+                width: MediaQuery.of(context).size.width* 0.25,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30.0),
+                    //  border: Border.all(width: 5),
+                    color: Color(0xFFE9EFF1)
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left:10.0),
+                  child: DropdownButton<String>(
+                    style: TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Color(0xFF839195),
+                        fontSize: 10
+                    ),
+                    isExpanded: true,
+                    items: provinceItems.map((String dropDownStringItems){
+                      return DropdownMenuItem<String>(
+                        value: dropDownStringItems,
+                        child: Text(dropDownStringItems),
+                      );
+                    }).toList(),
+                    onChanged: (String newValueSelected){
+                        setState(() {
+                          this.destination=newValueSelected;
+                        });
+                    },
+                    value: destination,
+                  ),
+                ),
+              ) ,
+                Center(
+                  child: Material(
+                    child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0xFFAAADAD),
+
+                ),
+                      child: IconButton(
+                        iconSize: 27.0,
+                        icon: Icon(Icons.search,color: Colors.black87),
+                        //   color: Color(0xFF3FCC59),
+
+                        onPressed: getSearchedTrips,
+//                splashColor: Colors.transparent,
+//                highlightColor: Colors
+//                    .transparent, // makes highlight invisible too
+                      ),
+                    ),
+                  ),
+                ),])
             ),
-         
+
             showSearchResult(),
 
           ],

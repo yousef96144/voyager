@@ -4,7 +4,7 @@ import '../../API/API.dart';
 import 'dart:convert';
 
 class UpdateTheOffer extends StatefulWidget{
- final BuildContext ctx;
+  final BuildContext ctx;
   final int offerId;
   final int tripId;
   final int offerPrice;
@@ -105,7 +105,7 @@ class _UpdateOfferState extends State<UpdateTheOffer> {
     return Scaffold(
       body:  Builder(
         builder: (context)=> Card(
-          color: Colors.greenAccent,
+          color: Colors.white,
           child: Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -130,12 +130,12 @@ class _UpdateOfferState extends State<UpdateTheOffer> {
                   ),
 
                   RaisedButton(child:
-                  Text('send offer'),
+                  Text('edit offer'),
                     onPressed:  (){
                      // _submitData(context);
                       updateMyOffer(context);
                     },
-                    color: Theme.of(context).primaryColor,
+                    color: Colors.green,
                     textColor: Theme.of(context).textTheme.button.color,
 
                   ),

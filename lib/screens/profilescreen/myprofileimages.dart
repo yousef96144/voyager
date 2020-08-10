@@ -8,6 +8,8 @@ import '../../API/API.dart';
 import 'dart:convert';
 import 'package:voyager/screens/profilescreen/background.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 
 class MyProfileImages extends StatefulWidget{
   final String myName;
@@ -38,14 +40,13 @@ class _StateImages extends State<MyProfileImages>{
       maxHeight:8,
       maxWidth: 4,
       cropStyle: CropStyle.circle,
-      compressQuality: 44,
+      compressQuality: 10,
       androidUiSettings: AndroidUiSettings(cropGridStrokeWidth: 10),
     );
     this.setState((){
       imagePicker=picture ;
     });
     Navigator.of(context).pop();
-
 
   }
 
@@ -58,7 +59,7 @@ class _StateImages extends State<MyProfileImages>{
         maxWidth: 250,
 
         cropStyle: CropStyle.circle,
-        compressQuality: 44
+        compressQuality: 10
 
 
     );
@@ -66,9 +67,9 @@ class _StateImages extends State<MyProfileImages>{
       imagePicker=picture ;
     });
     Navigator.of(context).pop();
-
   }
 
+  Dio dio=new Dio();
   Future<void> _showChoiceDialog(BuildContext context){
     return showDialog(context: context, builder: (BuildContext context){
       return AlertDialog(
@@ -81,8 +82,10 @@ class _StateImages extends State<MyProfileImages>{
             children: <Widget>[
               GestureDetector(
                 child: Text('Gallery'),
-                onTap: (){
-                  _openGallery(context);
+                onTap: ()async{
+                 await _openGallery(context);
+                  uploadYourImage(imagePicker);
+
                 },
               ),
               Padding(
@@ -90,8 +93,10 @@ class _StateImages extends State<MyProfileImages>{
               ),
               GestureDetector(
                 child: Text('Camera'),
-                onTap: (){
-                  _openCamera(context);
+                onTap: ()async{
+                 await _openCamera(context);
+                  uploadYourImage(imagePicker);
+
                 },
               )
             ],
@@ -100,50 +105,39 @@ class _StateImages extends State<MyProfileImages>{
       );
     });
   }
-//  updateUserImage(BuildContext context) async {
-//    print("\nwe are in get update user image\n");
-//
-//    SharedPreferences tokenLocalStorage=await SharedPreferences.getInstance();
-//    String currentToken=tokenLocalStorage.getString('token');
-//    String password=tokenLocalStorage.getString("password");
-//    String confirmPassword=password;
-//
-//    //   print(currentToken);
-//    String authentication= 'Bearer ' + currentToken;
-// //   print(authentication);
-//    _setHeaders()=>{
-////      'Content-type' : 'application/json',
-//      "Accept": 'application/json',
-//      "Authorization": authentication
-//    };
-//    var data = {
-//      'name':'fady',
-//      'email':'fady1996@gmail.com',
-//      'password':'fady1234',
-//      'password_confirmation': 'fady1234',
-//      'phone_number':'01012345612',
-//      'avatar': imagePicker.path,
-//
-//    };
-//    const String mainUrl ="auth/update";
-//
-//
-//    var res = await CallApi().postData(data,mainUrl,_setHeaders());
-//
-//
-//
-//
-//    var body = json.decode(res);
-//
-//    print(body);
-//
-//   // print(body["success"]);
-//
-//
-//
-//
-//  }
 
+
+  uploadYourImage(File profileImage)async{
+    SharedPreferences tokenLocalStorage=await SharedPreferences.getInstance();
+    String currentToken=tokenLocalStorage.getString('token');
+
+
+
+      print("\nwe are in upload profile image\n");
+    String authentication= 'Bearer ' + currentToken;
+
+      _setHeaders()=>{
+      'Content-type' : 'application/json',
+//        "Accept": 'application/json',
+        "Authorization": authentication
+      };
+      String mainUrl ="http://10.0.2.2:8000/api/auth/update";
+
+     try{
+      String fileName=profileImage.path.split('/').last;
+      FormData formData=new FormData.fromMap({
+        'avatar': await MultipartFile.fromFile(profileImage.path,filename: fileName,
+        contentType:  MediaType('image','jpg')),
+        'type' : 'image/png'
+      }
+      );
+      Response response= await dio.post(mainUrl,data: formData,options: Options(headers: _setHeaders()));
+     }catch(e){
+       print('error');
+print(e);
+     }
+
+}
   @override
   Widget build(BuildContext context) {
     return Container(

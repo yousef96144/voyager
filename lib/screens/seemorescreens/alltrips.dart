@@ -195,10 +195,9 @@ print("next page =$mainUrl");
                               ],
                             ),
                             SmoothStarRating(
-                                allowHalfRating: true,
 
                                 starCount: 5,
-                                rating: 3.5,
+                                rating: double.parse(tr["user_rating"].toString()),
                                 size: 20.0,
                                 //fullRatedIconData: Icons.blur_off,
                                 //halfRatedIconData: Icons.blur_on,
@@ -209,7 +208,7 @@ print("next page =$mainUrl");
                           ],
                         ),
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>TripDetailsView(tr['id'],tr['user']['name'],tr['user']['rate'],tr['user']['id'])));
+                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>TripDetailsView(tr['id'],tr['user']['name'],tr['user_rating'],tr['user']['id'],tr['user']['avatar'])));
 
                         },
 

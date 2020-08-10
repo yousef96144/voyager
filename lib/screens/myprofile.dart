@@ -6,7 +6,7 @@ import 'package:rating_bar/rating_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../API/API.dart';
 import 'dart:convert';
-
+import '../screens/notificationview.dart';
 
 
 
@@ -21,10 +21,11 @@ class _StateMyProfile extends State<MyProfile> {
 
 
   String myName;
-  String avatar="assets/image/users/default.png";
+  String avatar;
   String email;
   String phone;
-
+  int rating;
+  int userId;
   getUserInfo(BuildContext context) async {
 
     SharedPreferences tokenLocalStorage=await SharedPreferences.getInstance();
@@ -61,18 +62,41 @@ class _StateMyProfile extends State<MyProfile> {
       myName=body["success"]["name"];
       email=body["success"]["email"];
       phone=body["success"]["phone_number"];
-      avatar="assets/image/"+(body["success"]["avatar"]);
+      avatar=body["success"]["avatar"];
       tokenLocalStorage.setInt("Id", body["success"]["id"]);
+      userId=body["success"]["id"];
     });
 
 
 
+  }
+  getMyRating(BuildContext context) async {
+
+
+    print("\nwe are in get my rating\n");
+    SharedPreferences tokenLocalStorage = await SharedPreferences.getInstance();
+   int myId=tokenLocalStorage.getInt("Id");
+    print(userId);
+
+    String mainUrl ="rates/"+myId.toString();
+    print(mainUrl);
+    var res = await CallApi().getData(mainUrl);
+
+    var body = json.decode(res);
+    print(body);
+
+
+    setState(() {
+rating=body['rating'];
+
+    });
   }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getUserInfo(context);
+    getMyRating(context);
   }
   @override
   Widget build(BuildContext context) {
@@ -108,6 +132,12 @@ class _StateMyProfile extends State<MyProfile> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
+                                      myName==null?
+                                          Container(
+                                            width: MediaQuery.of(context).size.width*0.4,
+                                            height: MediaQuery.of(context).size.height*0.05,
+                                            color: Color(0xFFE9EFF1),
+                                          ):
                                       Text(
                                         "$myName",
                                         style: TextStyle(
@@ -142,6 +172,8 @@ class _StateMyProfile extends State<MyProfile> {
                             //  border: Border.all(width: 2)
                           ),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+
                             children: <Widget>[
                               Text(
                                 phone==null?
@@ -153,6 +185,7 @@ class _StateMyProfile extends State<MyProfile> {
                                     fontSize: 18,
                                     letterSpacing: 1,
                                     color: Color(0xFF2B2B2B)),
+                                textAlign: TextAlign.center,
                               ),
                               SizedBox(width: 10.0,),
                               InkWell(
@@ -172,7 +205,17 @@ class _StateMyProfile extends State<MyProfile> {
                             // border: Border.all(width: 2)
                           ),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+
                             children: <Widget>[
+                              email==null?
+                              AnimatedContainer(
+                                width: MediaQuery.of(context).size.width*0.4,
+                                height: MediaQuery.of(context).size.height*0.05,
+                                color: Color(0xFFE9EFF1),
+                                duration: Duration(seconds: 1)
+
+                              ):
                               Text(
                                 "$email",
                                 style: TextStyle(
@@ -180,7 +223,7 @@ class _StateMyProfile extends State<MyProfile> {
                                     fontWeight: FontWeight.w400,
                                     fontSize: 18,
                                     color: Color(0xFF2B2B2B)),
-                                textAlign: TextAlign.left,
+                                textAlign: TextAlign.center,
                               ),
                               SizedBox(width: 10.0,),
                               InkWell(
@@ -199,55 +242,17 @@ class _StateMyProfile extends State<MyProfile> {
                         ),
                         Container(
                             padding: EdgeInsets.only(left: 5.0),
-                            child: Row(
-                              children: <Widget>[
-                                Container(
-                                  width: 150,
-                                  height: 20,
-                                  child: RatingBar.readOnly(
-                                    initialRating: 3,
-                                    filledColor: Color(0xFFFFC107),
-                                    emptyColor: Color(0xFFB8B8B8),
-                                    size: 25,
-                                    filledIcon: Icons.star,
-                                    emptyIcon: Icons.star,
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(top: 2.0),
-                                  height: 20,
-                                  child: Text(
-                                    "(250+ feedback)",
-                                    style: TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 15,
-                                        letterSpacing: .5,
-                                        color: Color(0xFFB8B8B8)),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(top: 6),
-                                  child: Material(
-                                    child: IconButton(
-                                      iconSize: 25.0,
-                                      icon: Icon(
-                                        Icons.notifications,
-                                        color: Color(0xFF3FCC59),
-                                      ),
-                                      onPressed: () {},
-                                      splashColor: Colors.transparent,
-                                      highlightColor: Colors
-                                          .transparent, // makes highlight invisible too
-                                    ),
-                                  ),
-                                ),
-
-                              ],
+                            child: Container(
+                              width: 150,
+                              height: 20,
+                              child: RatingBar.readOnly(
+                                initialRating: rating==null? 0:double.parse(rating.toString()),
+                                filledColor: Color(0xFFFFC107),
+                                emptyColor: Color(0xFFB8B8B8),
+                                size: 25,
+                                filledIcon: Icons.star,
+                                emptyIcon: Icons.star,
+                              ),
                             )),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,

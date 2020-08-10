@@ -4,7 +4,7 @@ import '../screens/maketrip.dart';
 import '../screens/myprofile.dart';
 
 import './seemorescreens/searchtrips.dart';
-
+import '../screens/notificationview.dart';
 
 
 class TabsScreen extends StatefulWidget {
@@ -18,7 +18,7 @@ class _TabsScreenState extends State<TabsScreen> {
   List<Widget> _pages=[
     Home(),
     SearchTrips(),
-    MakeTrip(),
+    MyNotification(),
     MyProfile()
   ];
   int _selectedPageIndex=0;

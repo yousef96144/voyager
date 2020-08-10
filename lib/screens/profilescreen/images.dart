@@ -3,14 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:voyager/screens/profilescreen/background.dart';
 
 class Images extends StatefulWidget{
+  final String avatar;
+  Images(
+      this.avatar
+      );
   @override
   State<StatefulWidget> createState() {
-    return _StateImages();
+    return _StateImages(avatar);
   }
 
 }
 class _StateImages extends State<Images>{
-
+  final String avatar;
+  _StateImages(
+      this.avatar
+      );
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,10 +29,11 @@ class _StateImages extends State<Images>{
         Positioned(
           top: MediaQuery.of(context).size.height * 0.2,
           child: Container(
-            height: MediaQuery.of(context).size.height*0.245,
-            width: MediaQuery.of(context).size.width*0.465,
+//            height: MediaQuery.of(context).size.height*0.245,
+//            width: MediaQuery.of(context).size.width*0.465,
             decoration: BoxDecoration(
                 border: Border.all(width:5.0,color: Colors.white),
+                shape: BoxShape.circle,
                 boxShadow:  [
                   BoxShadow(
                     color: Colors.black12,
@@ -37,33 +45,31 @@ class _StateImages extends State<Images>{
                     ),
                   )
                 ],
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    image: AssetImage('assets/image/profile.png'),
-                    fit: BoxFit.cover
-                )),
-            child: Container(
-              height: MediaQuery.of(context).size.height*0.245,
-              width: MediaQuery.of(context).size.width*0.465,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,),
-              child: Stack(children: <Widget>[
-                Positioned(
-                    top: 30,
-                    right: 5,
-                    child: Container(
-                      width: 20.0,
-                      height: 20.0,
+//                shape: BoxShape.circle,
+            ),
+            child: CircleAvatar(
+              radius: 70.0,
+              backgroundImage: avatar == null ?
+              AssetImage('assets/image/users/default.png')
+                  : Image.network(" http://10.0.2.2:8000/"+avatar),
+              child: Container(
+                height: MediaQuery.of(context).size.height*0.245,
+                width: MediaQuery.of(context).size.width*0.465,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,),
+                child: Stack(children: <Widget>[
+                  Positioned(
+                      top: 30,
+                      right: 5,
+                      child: Container(
+                        width: 20.0,
+                        height: 20.0,
 
-                      decoration: BoxDecoration(
-                        color: Colors.green,
-                        border: Border.all(color: Colors.white,width: 2),
-                        borderRadius: BorderRadius.circular(20.0),
 
-                      ),
-                    )
-                )
-              ],
+                      )
+                  )
+                ],
+                ),
               ),
             ),
           ),

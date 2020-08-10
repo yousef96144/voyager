@@ -1,50 +1,46 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
-import 'package:voyager/screens/profile..dart';
-import 'package:voyager/screens/tripdetailscreens/mytripofferview.dart';
-import '../API/API.dart';
+import '../../API/API.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
-import './triprequest/makeoffer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../screens/home.dart';
-import 'chat_screen.dart';
-class TripDetailsView extends StatefulWidget {
+import '../../screens/home.dart';
+import '../profile..dart';
+import 'package:rating_dialog/rating_dialog.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
+class TripOfferResponse extends StatefulWidget {
+final int rateAvailable;
   final int tripId;
-  final String tripMakerName;
-  final int rating;
-  final int tripMakerId;
   final String avatar;
-  TripDetailsView(
+  final String message;
+  TripOfferResponse(
       this.tripId,
-      this.tripMakerName,
-      this.rating,
-      this.tripMakerId,
-      this.avatar
+      this.avatar,
+      this.message,
+      this.rateAvailable
       );
 
   @override
-  _TripDetailsViewState createState() => _TripDetailsViewState(tripId,tripMakerName,rating,tripMakerId,avatar);
+  _TripOfferResponseState createState() => _TripOfferResponseState(tripId,avatar,message,rateAvailable);
 }
 
-class _TripDetailsViewState extends State<TripDetailsView> {
-  final int tripId;
- final String tripMakerName;
- final int rating;
-  final int tripMakerId;
-  final String avatar;
+class _TripOfferResponseState extends State<TripOfferResponse> {
 
-  _TripDetailsViewState(
-  this.tripId   ,
-  this.tripMakerName,
-      this.rating,
-  this.tripMakerId,
-this.avatar
+  final int tripId;
+  final String avatar;
+  final String message;
+  final int rateAvailable;
+
+  _TripOfferResponseState(
+      this.tripId   ,
+      this.avatar,
+      this.message,
+  this.rateAvailable
+
       );
   int userId;
-
+  String tripMakerName;
   String from;
   String to;
   String car;
@@ -52,182 +48,107 @@ this.avatar
   int seatsNum;
   String tripDate;
   String desc;
-   List<dynamic> allOffers;
+  void showRating(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: true, // set to false if you want to force a rating
+        builder: (context) {
+          return RatingDialog(
+            icon: const Icon(
+              Icons.star,
+              size: 100,
+              color: Colors.green,
+            ), // set your own image/icon widget
+            title: "Rate your partner",
+            description: "support your driver and give him a good feedback.",
+            submitButton: "SUBMIT",
+            positiveComment: "We are so happy to hear 😍", // optional
+            negativeComment: "We're sad to hear 😭", // optional
+            accentColor: Colors.green, // optional
+            onSubmitPressed: (int rating) {
+              createRating(context,rating);
+            },
+
+          );
+        });
+  }
+
+  createRating(BuildContext context,int rating) async {
+    print('we are in create rating');
+
+    SharedPreferences tokenLocalStorage = await SharedPreferences.getInstance();
+    String currentToken = tokenLocalStorage.getString('token');
+    String authentication = 'Bearer ' + currentToken;
+print(userId);
+    _setHeaders()=>{
+      'Content-type' : 'application/json',
+      'Accept' : 'application/x-www-form-urlencoded',
+      "Authorization": authentication
 
 
+    };
+    var data = {
+      'rating': rating,
+      'rated_user_id': userId,
+    };
+    const String mainUrl ="rates";
+
+      var res = await CallApi().postData(data,mainUrl,_setHeaders());
+
+      var body = json.decode(res);
+
+      print(body);
+
+      print(body['data']);
+      print("\n");
+      print(body["success"]);
+
+  }
   getOneTrip(BuildContext context) async {
 
-
     print("\nwe are in get one trip\n");
-    print(avatar);
     SharedPreferences tokenLocalStorage = await SharedPreferences.getInstance();
     userId=tokenLocalStorage.getInt("Id");
-print(tripId);
-    print(tripMakerName);
-    print(rating);
+    print(tripId);
 
-     String mainUrl ="trips/"+tripId.toString();
-print(mainUrl);
+
+    String mainUrl ="trips/"+tripId.toString();
+    print(mainUrl);
     var res = await CallApi().getData(mainUrl);
 
     var body = json.decode(res);
     print(body);
 
 
-setState(() {
-from=body['data']["from"];
-to=body['data']['to'];
-car=body['data']['car_model'];
-price=body['data']['price_per_passenger'];
-seatsNum=body['data']['number_of_empty_seats'];
-tripDate=body['data']['departure_date'];
-allOffers=body['data']['offers'];
+    setState(() {
+      userId=body['data']['user_id'];
+      tripMakerName=body['data']['username'];
+      from=body['data']["from"];
+      to=body['data']['to'];
+      car=body['data']['car_model'];
+      price=body['data']['price_per_passenger'];
+      seatsNum=body['data']['number_of_empty_seats'];
+      tripDate=body['data']['departure_date'];
 
-});
-  }
-  void _startMakeNewOffer(BuildContext ctx){
-    print("we entered startaddnewtrans");
-
-    showModalBottomSheet(backgroundColor:Colors.white ,context: ctx, builder: (_){
-
-      return Container(
-        color: Colors.white,
-        height: MediaQuery.of(context).size.height*0.3,
-        child: GestureDetector(
-          onTap: (){},
-          child: MakeOffer(tripId),
-          behavior: HitTestBehavior.opaque,
-        ),
-      );}
-    );
+    });
+    if(rateAvailable==1){
+      showRating(context);
+    }
 
   }
-
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getOneTrip(context);
+
+      getOneTrip(context);
+
+
 
   }
-  chooseButtonStatus(){
 
-    print(userId);
-    print(tripMakerId);
-    if(userId!=tripMakerId){
-      if(allOffers.isEmpty&&seatsNum>0){
 
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.07,
-          width: MediaQuery.of(context).size.width * 0.85,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50.0),
-          ),
-          child: Material(
-            borderRadius: BorderRadius.circular(50.0),
-            //shadowColor: Theme.of(context).accentColor,
-            color: Color(0xFF3FCC59),
-            //Theme.of(context).primaryColor,
-            //  elevation: 7.0,
-            child: MaterialButton(
-              splashColor: Colors.transparent,
-              highlightColor:
-              Colors.transparent, // makes highlight invisible too
-              onPressed: ()=> _startMakeNewOffer(context),
-              child: Text(
-                "Make Offer",
-                style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 18.0,
-                    color: Color(0xFFFFFFFF),
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
-          ),
-        );
-      }else if(allOffers.isNotEmpty)
-  {
-    int flag=0;
-
-    for(var map in allOffers){
-          if(map['user_id']==userId){
-            flag=1;
-            break;
-          }
-    }
-    if(flag==0&&seatsNum>0){
-
-      return Container(
-        height: MediaQuery.of(context).size.height * 0.07,
-        width: MediaQuery.of(context).size.width * 0.85,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50.0),
-        ),
-        child: Material(
-          borderRadius: BorderRadius.circular(50.0),
-          //shadowColor: Theme.of(context).accentColor,
-          color: Color(0xFF3FCC59),
-          //Theme.of(context).primaryColor,
-          //  elevation: 7.0,
-          child: MaterialButton(
-            splashColor: Colors.transparent,
-            highlightColor:
-            Colors.transparent, // makes highlight invisible too
-            onPressed: ()=> _startMakeNewOffer(context),
-            child: Text(
-              "Make Offer",
-              style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 18.0,
-                  color: Color(0xFFFFFFFF),
-                  fontWeight: FontWeight.w600),
-            ),
-          ),
-        ),
-      );
-    }else if(flag==1){
-
-     return Text('you already made an offer on this trip or no seats available');
-    }
-  }
-    }else if(userId==tripMakerId){
-if(allOffers.isEmpty){
-  Container(
-    height: MediaQuery.of(context).size.height * 0.07,
-    width: MediaQuery.of(context).size.width * 0.85,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(50.0),
-    ),
-    child: Material(
-      borderRadius: BorderRadius.circular(50.0),
-      //shadowColor: Theme.of(context).accentColor,
-      color: Color(0xFF3FCC59),
-      //Theme.of(context).primaryColor,
-      //  elevation: 7.0,
-      child: MaterialButton(
-        splashColor: Colors.transparent,
-        highlightColor:
-        Colors.transparent, // makes highlight invisible too
-        onPressed: ()=> _startMakeNewOffer(context),
-        child: Text(
-          "Update trip",
-          style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 18.0,
-              color: Color(0xFFFFFFFF),
-              fontWeight: FontWeight.w600),
-        ),
-      ),
-    ),
-  );
-}else if(allOffers.isNotEmpty){
-return Text('your trip has an offers');
-
-    }
-    }
-
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -242,7 +163,10 @@ return Text('your trip has an offers');
         elevation: 0,
       ),
       body: Builder(
-        builder:(context)=> SingleChildScrollView(
+        builder:(context)=> tripMakerName==null?Container(
+          color: Colors.white,
+        )
+           : SingleChildScrollView(
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -318,7 +242,7 @@ return Text('your trip has an offers');
 
                           ),
                           decoration: BoxDecoration(
-                              shape: BoxShape.circle,
+                            shape: BoxShape.circle,
 
                           ),),
                         SizedBox(width:MediaQuery.of(context).size.width*0.05,),
@@ -329,49 +253,14 @@ return Text('your trip has an offers');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (BuildContext context)=>Profile(tripMakerId),
+                                      builder: (BuildContext context)=>Profile(userId),
                                     ),
                                   );                                }
                                 ,child: Text('$tripMakerName',style:TextStyle(fontSize:16 ),)),
                             SizedBox(height: MediaQuery.of(context).size.height*0.009,),
-                            SmoothStarRating(
-                                allowHalfRating: true,
 
-                                starCount: 5,
-                                rating: double.parse(rating.toString()),
-                                size: 20.0,
-                                //fullRatedIconData: Icons.blur_off,
-                                //halfRatedIconData: Icons.blur_on,
-                                color: Color(0xFF3FCC59),
-                                borderColor:Color(0xFF3FCC59),
-                                spacing:0.0
-                            )
                           ],
-                        ),
-                        SizedBox(
-                          width: 100,
-                        ),
-                        Center(
-                          child: Material(
-                            color: Colors.white,
-                            child: IconButton(
-                              iconSize: 25.0,
-                              icon: Icon(Icons.chat_bubble,color: Colors.green,),
-                              //   color: Color(0xFF3FCC59),
-
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context)=>ChatPage(tripId,tripMakerName,tripMakerId,avatar),
-                                  ),
-                                );                },
-//                splashColor: Colors.transparent,
-//                highlightColor: Colors
-//                    .transparent, // makes highlight invisible too
-                            ),
-                          ),
-                        ),
+                        )
                       ],
                     ),
                   ],
@@ -408,7 +297,7 @@ return Text('your trip has an offers');
                         SizedBox(width: MediaQuery.of(context).size.width*.20,),
                         Text('Date :',style: TextStyle(fontSize: 14,color: Color(0xFF3FCC59) ),),
                         Text(tripDate!=null? DateFormat.yMMMEd().format(DateTime.parse(tripDate)):""),
-                          //Variable///////////////////////
+                        //Variable///////////////////////
                       ],
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height*.01,),
@@ -424,11 +313,7 @@ return Text('your trip has an offers');
                   ],
                 ),
               ),
-              userId==null||userId!=tripMakerId||allOffers==null?Container():MyTripOffer(context,allOffers),
-              // send request button///////////////////////////////////////////////////////
-              Center(
-                child: userId==null?Container():chooseButtonStatus(),
-              ),
+            Text("$message")
 
             ],
           ),

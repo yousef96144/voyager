@@ -51,17 +51,43 @@ class _StateRecentTrips extends State<RecentTrips>{
   @override
   Widget build(BuildContext context) {
     print("we are in recent trips state func");
-    return  Container(
+
+
+    return  _lastTenTrips==null ?
+    Container(
+    width: MediaQuery.of(context).size.width*0.905,
+    height: MediaQuery.of(context).size.height*0.210,
+    margin: EdgeInsets.only(left: 25.0),
+    child: Row(children: <Widget>[
+    Container(
+    width: MediaQuery.of(context).size.width*0.439,
+    height: MediaQuery.of(context).size.height*0.209,
+    child:  Center(
+      child: CircularProgressIndicator(
+        strokeWidth: 2,
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+
+      ),
+    ),
+    ),
+    Container(
+    width: MediaQuery.of(context).size.width*0.439,
+    height: MediaQuery.of(context).size.height*0.209,
+    child:  Center(
+      child: CircularProgressIndicator(
+        strokeWidth: 2,
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+
+      ),
+    ),
+    ),
+    ],),
+    )
+   : Container(
       width: MediaQuery.of(context).size.width*0.905,
       height: MediaQuery.of(context).size.height*0.210,
       margin: EdgeInsets.only(left: 25.0),
-      child: _lastTenTrips==null ?
-      CircularProgressIndicator(
-        strokeWidth: 2,
-        valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
-
-      )
-     : SingleChildScrollView(
+      child:  SingleChildScrollView(
           scrollDirection: Axis.horizontal,
 
          child: Row(
@@ -76,7 +102,7 @@ class _StateRecentTrips extends State<RecentTrips>{
             child: GestureDetector(
               onTap: (){
                 print("welcome");
-                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>TripDetailsView(tr['id'],tr['user']['name'],tr['user']['rate'],tr['user']['id'])));
+                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>TripDetailsView(tr['id'],tr['user']['name'],tr['user_rating'],tr['user']['id'],tr['user']['avatar'])));
               },
               child: Card(
                 elevation: 0,
@@ -127,7 +153,7 @@ class _StateRecentTrips extends State<RecentTrips>{
                               Text(
                                 DateFormat.jm().format(DateTime.parse(tr["departure_date"])),
                                 style: TextStyle(
-                                    fontSize: 10.0,
+                                    fontSize: 9.0,
                                     fontWeight: FontWeight.w400,
                                     color: Color(0xFF3FCC59),
                                     fontFamily: 'Poppins'),

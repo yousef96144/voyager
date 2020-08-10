@@ -91,7 +91,7 @@ print(tripId);
     return Scaffold(
       body:  Builder(
          builder: (context)=> Card(
-           color: Colors.greenAccent,
+           color: Colors.white,
           child: Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -120,7 +120,7 @@ print(tripId);
                     onPressed:  (){
                       _submitData(context);
                     },
-                    color: Theme.of(context).primaryColor,
+                    color: Colors.green,
                     textColor: Theme.of(context).textTheme.button.color,
 
                   ),

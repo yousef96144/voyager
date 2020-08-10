@@ -202,18 +202,7 @@ class _StateShowMyTrips extends State<ShowMyTrips>{
                                 ),
                               ],
                             ),
-                            SmoothStarRating(
-                                allowHalfRating: true,
 
-                                starCount: 5,
-                                rating: 3.5,
-                                size: 20.0,
-                                //fullRatedIconData: Icons.blur_off,
-                                //halfRatedIconData: Icons.blur_on,
-                                color: Color(0xFF3FCC59),
-                                borderColor:Color(0xFF3FCC59),
-                                spacing:0.0
-                            )
                           ],
                         ),
                         onLongPress: (){

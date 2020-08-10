@@ -132,6 +132,8 @@ class _StateLogin extends State<Signup>{
   else
     gender="female";
 
+    var dateAfterMyFormat= _recentDate.toString();
+print(dateAfterMyFormat);
     _setHeaders()=>{
       'Content-type' : 'application/json',
       'Accept' : 'application/json'
@@ -144,7 +146,7 @@ class _StateLogin extends State<Signup>{
       'password_confirmation': confirmPasswordController.text,
       'gender': gender,
       //_characterSex.toString(),
-      'date_of_birth': "1996/11/28"
+      'date_of_birth': dateAfterMyFormat
       //birthDate
     };
     const String mainUrl ="auth/register";
@@ -165,33 +167,33 @@ class _StateLogin extends State<Signup>{
     if (body["success"] == "true") {
       _showAlertView(context);
 
-      print(body['token']);
+      print(body['token']['token']);
       print(body['user']);
     }
     else {
       setState(() {
-        errorName = body['error']['name'];
+        errorName = body['errors']['name'];
         print("\n");
         print(errorName);
-        errorEmail = body['error']['email'];
+        errorEmail = body['errors']['email'];
         print("\n");
         print(errorEmail);
-        errorPass = body['error']['password'];
+        errorPass = body['errors']['password'];
         print("\n");
         print(errorPass);
-        errorPhone = body['error']['phone_number'];
+        errorPhone = body['errors']['phone_number'];
         print("\n");
         print(errorPhone);
-        errorGender = body['error']['gender'];
+        errorGender = body['errors']['gender'];
         print("\n");
         print(errorGender);
-        errorBD = body['error']['date_of_birth'];
+        errorBD = body['errors']['date_of_birth'];
         print("\n");
         print(errorBD);
         _isLoading = false;
       });
     }
-//      }
+
 }catch(error){
     print("\n$error");
 
